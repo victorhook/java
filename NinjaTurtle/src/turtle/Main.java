@@ -6,5 +6,12 @@ public class Main {
 	
 		TurtleRace t = new TurtleRace(400, 400);
 		
+		while (t.gameIsOn()) {
+			t.newGame();
+			t.run();
+		}
+		
+		t.close();
+		
 	}
 }
