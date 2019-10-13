@@ -87,6 +87,7 @@ public class TurtleRace extends SimpleWindow implements Runnable{
 		}
 		
 		Button play_againB = new Button(this, Button.PLAY_AGAIN, width / 2 - 50, height / 2 + 50);
+		oneMoreRound = false;
 		
 		while (!oneMoreRound) {
 			waitForMouseClick();
@@ -119,9 +120,9 @@ public class TurtleRace extends SimpleWindow implements Runnable{
 		moveTo(width / 2 - 100, height / 2);
 		String msg = "It's a tie between ";
 		for (NinjaTurtle t: ties) {
-			msg += t.getName() + " ";
+			msg += t.getName() + " & ";
 		}
-		msg += "!";
+		msg = msg.substring(0, msg.length() - 2) +  "!";
 		writeText(msg);
 	}
 	
@@ -318,44 +319,45 @@ public class TurtleRace extends SimpleWindow implements Runnable{
 			if (!oneMoreRound) {
 				if (!proceed()) {
 					w.quit();	
+				}
 			}
-					w.clear();
-					moveTo(width / 4, height / 3);
-					writeText("How many Turtles should race?");
-					w.moveTo(width / 2 - 20, height / 2);
-					w.setLineWidth(2);
-					w.lineTo(width / 2 + 20, height / 2);
-					playB = new Button(w, Button.PLAY, (int) (width / 2.5), height - height / 3);
+				w.clear();
+				moveTo(width / 4, height / 3);
+				writeText("How many Turtles should race?");
+				w.moveTo(width / 2 - 20, height / 2);
+				w.setLineWidth(2);
+				w.lineTo(width / 2 + 20, height / 2);
+				playB = new Button(w, Button.PLAY, (int) (width / 2.5), height - height / 3);
 
-					String keysPressed = "", key = "";
-					int action, positioner = -7;
-					int nbrOfTurtles = -1;
+				String keysPressed = "", key = "";
+				int action, positioner = -7;
+				int nbrOfTurtles = -1;
 
-					while (nbrOfTurtles < 2) {
-						w.waitForEvent();
-						action = w.getEventType();
-						if (action == 1) {
-							key = String.valueOf(w.getKey());
-							keysPressed += key;
-							w.moveTo(width / 2 + positioner, height / 2 - 10);
-							w.writeText(key);
-							positioner += 7;
-						} else {
-							if (playB.click(w.getMouseX(), w.getMouseY())) {
-								nbrOfTurtles = Integer.parseInt(keysPressed);
-							}
+				while (nbrOfTurtles < 2) {
+					w.waitForEvent();
+					action = w.getEventType();
+					if (action == 1) {
+						key = String.valueOf(w.getKey());
+						keysPressed += key;
+						w.moveTo(width / 2 + positioner, height / 2 - 10);
+						w.writeText(key);
+						positioner += 7;
+					} else {
+						if (playB.click(w.getMouseX(), w.getMouseY())) {
+							nbrOfTurtles = Integer.parseInt(keysPressed);
 						}
 					}
-					w.clear();
-					if (nbrOfTurtles > 10) {
-						nbrOfTurtles = 10;
-						moveTo(width / 4, height / 3);
-						writeText("Tyv�rr �r 10 Max... Vi k�r p� det!");
-						w.delay(3000);
-						w.clear();
-					}
-					w.setNumberOfTurtles(nbrOfTurtles);
 				}
+				w.clear();
+				if (nbrOfTurtles > 10) {
+					nbrOfTurtles = 10;
+					moveTo(width / 4, height / 3);
+					writeText("Tyv�rr �r 10 Max... Vi k�r p� det!");
+					w.delay(3000);
+					w.clear();
+				}
+				w.setNumberOfTurtles(nbrOfTurtles);
+			
 		}
 
 		private boolean proceed() {
