@@ -16,15 +16,21 @@ public class GameFrame extends JFrame implements Runnable {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		GridMap gridMap = new GridMap();
+		GridMap gridMap = new GridMap(new Snake());
 		GameEngine engine = new GameEngine();
-		EventMaster eventHandler = new EventMaster(engine);
 		//drawMap(gridMap);
 
-		this.addKeyListener(eventHandler);
+		this.addKeyListener(new EventMaster(engine));
 		
 		add(gridMap);
-		setVisible(true);
+		
+		javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				setVisible(true);
+			}
+		});
+		
+		//setVisible(true);
 	}
 
 	
