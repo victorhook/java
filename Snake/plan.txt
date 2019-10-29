@@ -1,0 +1,16 @@
+Game plan
+
+Frontend, using Swing.
+	- Drawing frame
+	- Snake
+	
+Backend 
+	- Calculations
+	- Listen to inputs
+	
+Classes:
+	- Main Frame
+	- Snake
+	- Backend
+	- KeyListener
+
