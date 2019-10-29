@@ -3,9 +3,10 @@ package snake;
 import java.awt.*;
 import javax.swing.*;
 
-public class GameFrame extends JFrame implements Runnable {
+public class GameFrame extends JFrame {
 
 	private final int WIDTH = 600, HEIGHT = 600;
+	private GridMap gridMap;
 	
 	public GameFrame() {
 		super("Snake");
@@ -16,28 +17,20 @@ public class GameFrame extends JFrame implements Runnable {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		GridMap gridMap = new GridMap(new Snake());
-		GameEngine engine = new GameEngine();
-		//drawMap(gridMap);
+		gridMap = new GridMap();
+		GameEngine engine = new GameEngine(gridMap, new Snake());
 
 		this.addKeyListener(new EventMaster(engine));
 		
 		add(gridMap);
+		setVisible(true);
+
+		Thread t = new Thread(engine);
+		t.start();
 		
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				setVisible(true);
-			}
-		});
-		
-		//setVisible(true);
 	}
 
 	
-	public void run() {
-		// Starts the game
-		
-	}
 	
 
 }

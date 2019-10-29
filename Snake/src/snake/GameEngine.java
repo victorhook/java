@@ -1,13 +1,44 @@
 package snake;
 
-public class GameEngine {
+public class GameEngine implements Runnable {
 
-	private enum Direction {
-		UP, DOWN, LEFT, RIGHT
-	};
-
+	private GridMap map;
+	private Snake snake;
+	private final int DELAY = 500;
 	private Direction direction;
+	
+	public GameEngine(GridMap map, Snake snake) {
+		this.map = map;
+		this.snake = snake;
+		direction = Direction.UP;
+	}
+	
+	public void run() {
+		
+		System.out.println("Game started");
+		boolean gameRunning = true;
+		while (gameRunning) {
+			
+			if (!map.mapHasFood()) {
+				map.newFood();	
+			}
+			
+			move(snake);
+			map.updateMap(snake.getBody());
+			map.repaint();
+			try {
+				//Thread.currentThread();
+				Thread.sleep(DELAY);
+			} catch (Exception e) {}
+		}
+		
+	}
 
+	private void move(Snake snake) {
+		snake.move(direction);
+			
+	}
+	
 	public GameEngine() {
 		this.direction = Direction.UP;
 	}
