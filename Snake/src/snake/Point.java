@@ -4,16 +4,16 @@ public class Point {
 
 	private int row;
 	private int col;
-	private PointState state;
+	private int state;
 	
 	public Point(int row, int col) {
 		this.row = row;
 		this.col = col;
-		this.state = PointState.EMPTY;
+		this.state = GameEngine.EMPTY;
 	}
 	
-	public void setState(PointState p) {
-		this.state = p;
+	public void setState(int state) {
+		this.state = state;
 	}
 	
 	public void setRow() {
@@ -32,12 +32,12 @@ public class Point {
 		return col;
 	}
 	
-	public PointState getState() {
+	public int getState() {
 		return state;
 	}
 	
 	public String toString() {
-		return String.format("Row: %s,  Col: %s", row, col);
+		return String.format(" %s ", state);
 	}
 	
 }

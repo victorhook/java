@@ -16,6 +16,7 @@ public class EventMaster implements KeyListener {
 		// Sends the corresponding action that should be taken when key is pressed
 		// its WASD mapping, for UP - LEFT - DOWN - RIGHT
 		char c = arg0.getKeyChar();
+		/*
 		switch (c) {
 		
 		case 'w':
@@ -31,6 +32,7 @@ public class EventMaster implements KeyListener {
 			engine.moveRight();
 			break;
 		}
+		*/
 	}
 
 	public void keyReleased(KeyEvent arg0) {}
