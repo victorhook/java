@@ -17,6 +17,7 @@ public class MainGame extends JFrame {
 		setResizable(false);
 		setLocationRelativeTo(null);
 		setLayout(new GridBagLayout());
+		getContentPane().setBackground(GRAY);
 		
 		GridMap map = new GridMap();
 		NavBar navBar = new NavBar();
@@ -25,9 +26,15 @@ public class MainGame extends JFrame {
 		// Construction area
 		
 		PlayAgainScreen playAgain = new PlayAgainScreen();
-		
+		StartMenu startMenu = new StartMenu();
 		
 		GridBagConstraints gbc = new GridBagConstraints();
+		
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(new HighScore(), gbc);
+		
+		/*
 		
 		gbc.gridx = 0;
 		gbc.gridy = 0;
@@ -35,8 +42,8 @@ public class MainGame extends JFrame {
 		
 		gbc.gridy = 1;
 		// Change playAgain for map when done
-		add(playAgain, gbc);
-		
+		add(startMenu, gbc);
+		*/
 		addKeyListener(engine);
 		
 		
