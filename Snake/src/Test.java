@@ -1,42 +1,67 @@
-import javax.swing.*;
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Random;
 
-public class Test extends JPanel {
-    public Test() {
-        initializeUI();
-    }
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-    private void initializeUI() {
-        setLayout(new BorderLayout());
-        setPreferredSize(new Dimension(500, 200));
+public class Test extends JSONArray{
 
-        JTable table = new JTable(20, 20);
-
-        // Turn off JTable's auto resize so that JScrollPane will show a
-        // horizontal scroll bar.
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-
-        JScrollPane pane = new JScrollPane(table);
-        add(pane, BorderLayout.CENTER);
-    }
-
-    private static void showFrame() {
-        JPanel panel = new Test();
-        panel.setOpaque(true);
-
-        JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setTitle("Scrollable JTable");
-        frame.setContentPane(panel);
-        frame.pack();
-        frame.setVisible(true);
-    }
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-            	Test.showFrame();
-            }
-        });
+
+    	List<JSONObject> highscores = new ArrayList<JSONObject>();
+    	Random rand = new Random();
+    	for (int i = 0; i < 10; i++) {
+    		JSONObject obj = new JSONObject();
+    		obj.put("Name", "Victor");
+    		obj.put("Score", rand.nextInt(20));
+    		highscores.add(obj);
+    	}
+    	
+    	Collections.sort(highscores, new Comparator<JSONObject>() {
+
+			@Override
+			public int compare(JSONObject arg0, JSONObject arg1) {
+				int val1, val2;
+				
+				val1 = (int) arg0.get("Score");
+				val2 = (int) arg1.get("Score");
+				
+				int result;
+				
+				if (val1 < val2) {
+					result = -1;
+				} else if (val1 == val2) {
+					result = 0;
+				} else {
+					result = 1;
+				}
+				return result;
+			}
+    	});
+    	
+    	System.out.println(highscores.toString());
+    	
     }
+    
+    
+    
 }

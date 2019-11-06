@@ -1,3 +1,4 @@
+package game;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +8,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.Timer;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GameEngine implements KeyListener {
 
@@ -171,5 +175,15 @@ public class GameEngine implements KeyListener {
 	// Unused methods from KeyListener Interface
 	public void keyReleased(KeyEvent arg0) {}
 	public void keyTyped(KeyEvent arg0) {}
+	
+	public void updateHighscores(String highscores) {
+		// highscores is in JSONObject format
+		// From here it's sent to the frontend
+		JSONArray highscore = new JSONArray(highscores);
+		
+		for (Object obj : highscore) {
+			System.out.println( ((JSONObject)obj).get("Name") );
+		}
+	}
 	
 }

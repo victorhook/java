@@ -1,4 +1,4 @@
-
+package game;
 public class Box {
 
 	private int row;
