@@ -4,10 +4,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import org.json.JSONArray;
@@ -20,17 +20,17 @@ public class GameEngine implements KeyListener {
 	private NavBar navBar;
 	private HighScore highScore;
 	private StartMenu startMenu;
+	private PlayAgainScreen playAgain;
 	private Box[][] snakeMap;
 	private ArrayList<Box> snakeBody;
 	private Random rand = new Random();
-	
-	private final int DELAY = 120;
+
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
 	public static final int EMPTY = 10, SNAKE = 20, FOOD = 30;
 	public static final String PLAY = "Play", PLAY_AGAIN = "Play again", SUBMIT = "Submit score",
 				               HIGHSCORE = "Show Highscores", QUIT = "Quit", BACK = "Back to menu";        
 	
-	private boolean gameRunning;
+	private boolean gameRunning, gameFinished;
 	private int rows, cols;
 	private int score;
 	
@@ -62,6 +62,7 @@ public class GameEngine implements KeyListener {
 		// Updates frontend game frame and makes it visible
 		map.updateMap(snakeMap);
 		navBar.updateScore(score);
+
 		
 	}
 	
@@ -105,42 +106,53 @@ public class GameEngine implements KeyListener {
 	
 	public void startGame() {
 		
-		generateFood();
-		Timer tick = new Timer(0, new ActionListener() {
+		try {
+			navBar.reset();
+			root.showGame();
+			map.requestFocus();
 			
-			int counter = 0;
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (counter == DELAY) {
-					counter = 0;
-					map.updateMap(snakeMap);
-					map.repaint();
-					snake.move();
-				} else {
-					counter++;
+			generateFood();
+			gameFinished = false;
+			
+			Timer tick = new Timer(500, new ActionListener() {
+				
+				int counter = 0;
+				private final int DELAY = 200;
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (counter == DELAY) {
+						counter = 0;
+						map.updateMap(snakeMap);
+						map.repaint();
+						snake.move();
+					} else {
+						counter++;
+					}
 				}
-			}
-		});
-		
-		tick.setDelay(1);
-		tick.setRepeats(true);
-		tick.start();
+			});
+			
+			tick.setDelay(1);
+			tick.setRepeats(true);
+			tick.start();
+		} 
+		catch (Exception e) {}
 		
 	}
 	
 	public void gameOver() {
 		navBar.updateNewBest(score);
-		System.out.println("game over");
-		map.setVisible(false);
+		gameFinished = true;
 	}
 	
 	public void onTopOfFood(Box snakeHead) {
 		// Checks if snake head is on top of food
+
 		if (snakeMap[snakeHead.getRow()][snakeHead.getCol()].getState() == FOOD) {
 			snake.grow();
 			generateFood();
 			navBar.updateScore(++score);
 		}
+	
 	}
 	
 	public boolean collision(int row, int col) {
@@ -157,12 +169,13 @@ public class GameEngine implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// The keys 'W' 'A' 'S' 'D' are used to navigate the snake
-		
+		System.out.println("kodsad");
 		char c = arg0.getKeyChar();
 		
 		switch (c) {
 			case 'w':
 				snake.turn(UP);
+				System.out.println("kadoskds");
 				break;
 			case 'a':
 				snake.turn(LEFT);
@@ -182,14 +195,15 @@ public class GameEngine implements KeyListener {
 	public void buttonCallback(String button) {
 		switch (button) {
 		case PLAY:
-			
+			startGame();
 			break;
 			
 		case PLAY_AGAIN:
+			startGame();
 			break;
 			
 		case SUBMIT:
-			//new HighscoreRequest(this, "POST", username, score)
+			new Thread(new HighscoreRequest(this, "POST", "TEMP", score)).start();
 			break;
 			
 		case HIGHSCORE:
@@ -197,7 +211,12 @@ public class GameEngine implements KeyListener {
 			break;
 			
 		case BACK:
-			root.showStartMenu();
+			if (gameFinished) {
+				root.playAgainMenu();
+			} else {
+				root.showStartMenu();				
+			}
+
 			break;
 			
 		case QUIT:
@@ -225,8 +244,21 @@ public class GameEngine implements KeyListener {
 		root.addHighscore(new HighScore(data, this));
 	}
 	
-	public void addStartMenu(StartMenu menu) {
+    void postCallback(boolean userMadeIt) {
+    	// Callback if the user made it to highscores
+    	navBar.madeItToHighscores(userMadeIt);
+    }
+	
+	void addStartMenu(StartMenu menu) {
 		this.startMenu = menu;
+	}
+	
+	void addPlayAgainMenu(PlayAgainScreen playAgain) {
+		this.playAgain = playAgain;
+	}
+	
+	void connectionIssue() {
+		// Callback if we can't connect to highscores
 	}
 	
 }

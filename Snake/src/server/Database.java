@@ -33,7 +33,7 @@ class Database {
 
 	}
 
-	public void updateHighscore(String name, int score) {
+	boolean updateHighscore(String name, int score) {
 
 		try {
 			reader = new FileInputStream(file);
@@ -58,32 +58,37 @@ class Database {
 				user.put("Score", score);
 				user.put("Rank", index + 1);
 				highscores.add(index, user);
+				
+				highscores.sort(new Comparator<JSONObject>() {
+
+					@Override
+					public int compare(JSONObject user1, JSONObject user2) {
+
+						int score1 = (user1).getInt("Score");
+						int score2 = (user2).getInt("Score");
+
+						if (score1 < score2) {
+							return 1;
+						} else if (score1 > score2) {
+							return -1;
+						} else {
+							return 0;
+						}
+					}
+				});
+				
+				updateRanks(highscores);
+				save(highscores);
+			}
+			else {
+				return false;
 			}
 
-			highscores.sort(new Comparator<JSONObject>() {
-
-				@Override
-				public int compare(JSONObject user1, JSONObject user2) {
-
-					int score1 = (user1).getInt("Score");
-					int score2 = (user2).getInt("Score");
-
-					if (score1 < score2) {
-						return 1;
-					} else if (score1 > score2) {
-						return -1;
-					} else {
-						return 0;
-					}
-				}
-			});
-
-			updateRanks(highscores);
-			save(highscores);
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			return false;
 		}
+		
+		return true;
 
 	}
 

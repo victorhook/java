@@ -39,8 +39,9 @@ class Server {
 		}
 	}
 	
-	public void addNewHighscore(String userName, int score) {
-		database.updateHighscore(userName, score);
+	public boolean addNewHighscore(String userName, int score) {
+		// If the user made it to the highscores, it returns true
+		return database.updateHighscore(userName, score);
 	}
 	
 	public static void main(String[] args) {

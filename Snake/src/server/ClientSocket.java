@@ -46,8 +46,12 @@ class ClientSocket extends Thread {
 					
 					userName = in.readUTF();
 					score = in.readInt();
+					
 					// Gives the response to the server 
-					server.addNewHighscore(userName, score);
+					boolean userMadeIt = server.addNewHighscore(userName, score);
+					
+					out.writeBoolean(userMadeIt);
+					out.flush();
 					
 				}
 				

@@ -1,17 +1,10 @@
 package game;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.Insets;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
 public class PlayAgainScreen extends JPanel {
 
@@ -30,6 +23,8 @@ public class PlayAgainScreen extends JPanel {
 		StyledBtn highScore = new StyledBtn(engine.HIGHSCORE, engine);
 		
 		StyledBtn quit = new StyledBtn(engine.QUIT, engine);
+		
+		gbc.insets = new Insets(5, 0, 5, 0);
 		
 		gbc.gridy = 0;
 		add(play, gbc);

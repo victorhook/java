@@ -39,7 +39,7 @@ public class HighscoreRequest extends Thread {
 			DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
 
 			String msg = "";
-			
+
 			while (!msg.equals(OVER)) {
 				
 				if (request.equals(GET)) {
@@ -52,7 +52,7 @@ public class HighscoreRequest extends Thread {
 					
 					msg = in.readUTF();
 			
-				} else {
+				} else if (request.equals(POST)) {
 					
 					out.writeUTF(POST);
 					out.flush();
@@ -62,6 +62,9 @@ public class HighscoreRequest extends Thread {
 					
 					out.writeInt(score);
 					out.flush();
+					
+					boolean userMadeIt = in.readBoolean();
+					engine.postCallback(userMadeIt);
 					
 					out.writeUTF(OVER);
 					out.flush();
@@ -75,9 +78,11 @@ public class HighscoreRequest extends Thread {
 			out.close();
 						
 		} 
-		catch (IOException e) {}
+		catch (Exception e) {
+			engine.connectionIssue();
+			System.out.println("error");
+		}
 		
 	}
-
 	
 }
