@@ -1,67 +1,42 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
 
-public class Test extends JSONArray{
-
+public class Test {
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-    public static void main(String[] args) {
-
-    	List<JSONObject> highscores = new ArrayList<JSONObject>();
-    	Random rand = new Random();
-    	for (int i = 0; i < 10; i++) {
-    		JSONObject obj = new JSONObject();
-    		obj.put("Name", "Victor");
-    		obj.put("Score", rand.nextInt(20));
-    		highscores.add(obj);
-    	}
-    	
-    	Collections.sort(highscores, new Comparator<JSONObject>() {
-
-			@Override
-			public int compare(JSONObject arg0, JSONObject arg1) {
-				int val1, val2;
-				
-				val1 = (int) arg0.get("Score");
-				val2 = (int) arg1.get("Score");
-				
-				int result;
-				
-				if (val1 < val2) {
-					result = -1;
-				} else if (val1 == val2) {
-					result = 0;
-				} else {
-					result = 1;
-				}
-				return result;
+	public static void main(String[] args) {
+		
+		Socket socket;
+		DataOutputStream out;
+		DataInputStream in;
+		
+		String IP = "https://govagriculture.web.ctfcompetition.com";
+		int PORT = 80;
+		
+		try {
+			socket = new Socket(IP, PORT);
+			out = new DataOutputStream(socket.getOutputStream());
+			in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+			
+			out.writeUTF("GET /about.html HTTP/1.1");
+			out.writeUTF("Host: https://govagriculture.web.ctfcompetition.com\n");
+			out.flush();
+			
+			String msg = "";
+			while (!msg.equals("over")) {
+				msg = in.readUTF();
+				System.out.println(msg);
 			}
-    	});
-    	
-    	System.out.println(highscores.toString());
-    	
-    }
-    
-    
-    
+			
+			socket.close();
+			out.close();
+			in.close();
+			
+		} catch (IOException e) {}
+		
+	}
+	
 }

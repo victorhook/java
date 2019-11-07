@@ -5,11 +5,20 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 public class MainGame extends JFrame {
 
 	public final static Color GRAY = Color.decode("#C0C0C0"), GRAY2 = Color.decode("#999999"), ORANGE = Color.decode("#00cc00");;
+	
+	private GridMap map;
+	private NavBar navBar;
+	private HighScore window;
+	private GameEngine engine;
+	private StartMenu startMenu;
+	private GridBagConstraints gbc;
+	
 	
 	private MainGame() {
 		
@@ -20,36 +29,49 @@ public class MainGame extends JFrame {
 		setLayout(new GridBagLayout());
 		getContentPane().setBackground(GRAY);
 		
-		GridMap map = new GridMap();
-		NavBar navBar = new NavBar();
-		GameEngine engine = new GameEngine(map, navBar);
-
-		// Construction area
+		map = new GridMap();
+		navBar = new NavBar();
+		engine = new GameEngine(this, map, navBar);
+	
+		//PlayAgainScreen playAgain = new PlayAgainScreen(engine);
 		
-		PlayAgainScreen playAgain = new PlayAgainScreen();
-		StartMenu startMenu = new StartMenu();
-		
-		GridBagConstraints gbc = new GridBagConstraints();
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(new HighScore(), gbc);
-		
-		/*
-		
-		gbc.gridx = 0;
-		gbc.gridy = 0;
-		add(navBar, gbc);
-		
-		gbc.gridy = 1;
-		// Change playAgain for map when done
-		add(startMenu, gbc);
-		*/
+		startMenu = new StartMenu(engine);
+				
+		engine.addStartMenu(startMenu);
 		addKeyListener(engine);
 		
+		gbc = new GridBagConstraints();
+			
+		gbc.gridx = 0;
+		gbc.gridy = 0;
+		add(startMenu, gbc);
+
 		
 		//engine.startGame();
 		
+	}
+	
+	public void addHighscore(HighScore window) {
+		startMenu.setVisible(false);
+		this.window = window;
+		add(window, gbc);
+	}
+	
+	public void showStartMenu() {
+		try {
+			window.setVisible(false);
+			remove(window);
+		} catch (Exception e) {e.printStackTrace();}
+		startMenu.setVisible(true);
+		
+	}
+	
+	public void hideStartMenu() {
+		startMenu.setVisible(false);
+	}
+	
+	public void hideNavBar() {
+		navBar.setVisible(false);
 	}
 	
 	public static void main(String[] args) {

@@ -53,6 +53,10 @@ class ClientSocket extends Thread {
 				
 			}
 			
+			socket.close();
+			in.close();
+			out.close();
+			
 		} 
 		catch (IOException e) {}
 		

@@ -10,8 +10,14 @@ import javax.swing.border.LineBorder;
 
 class StyledBtn extends JButton implements MouseListener {
 		
-		public StyledBtn(String text) {
+	private GameEngine engine;
+	private String text;
+	
+		public StyledBtn(String text, GameEngine engine) {
 			super(text);
+			this.engine = engine;
+			this.text = text;
+			
 			setPreferredSize(new Dimension(400, 80));
 			setFont(new Font("Courier", Font.BOLD, 25));
 			setFocusPainted(false);
@@ -21,8 +27,11 @@ class StyledBtn extends JButton implements MouseListener {
 			addMouseListener(this);
 		}
 		
-		public StyledBtn(String text, Dimension d) {
+		public StyledBtn(String text, GameEngine engine, Dimension d) {
 			super(text);
+			this.engine = engine;
+			this.text = text;
+			
 			setPreferredSize(d);
 			setFont(new Font("Courier", Font.BOLD, 25));
 			setFocusPainted(false);
@@ -33,8 +42,8 @@ class StyledBtn extends JButton implements MouseListener {
 		}
 		
 		@Override
-		public void mouseClicked(MouseEvent arg0) {
-			// TODO Auto-generated method stub
+		public void mouseClicked(MouseEvent event) {
+			engine.buttonCallback(text);
 		}
 
 		@Override

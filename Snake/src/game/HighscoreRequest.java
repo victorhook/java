@@ -13,8 +13,6 @@ public class HighscoreRequest extends Thread {
 	public static final String GET = "GET", POST = "POST", OVER = "over";
 	
 	private Socket socket;
-	private DataOutputStream out;
-	private DataInputStream in;
 	private GameEngine engine;
 	private String request;
 	private String userName;
@@ -33,13 +31,13 @@ public class HighscoreRequest extends Thread {
 	}
 	
 	public void run() {
-	
+
 		try {
 			
 			socket = new Socket(IP, PORT);
-			out = new DataOutputStream(socket.getOutputStream());
-			in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-			
+			DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+			DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+
 			String msg = "";
 			
 			while (!msg.equals(OVER)) {
@@ -72,13 +70,14 @@ public class HighscoreRequest extends Thread {
 				}
 			}
 			
+			socket.close();
+			in.close();
+			out.close();
+						
 		} 
 		catch (IOException e) {}
 		
 	}
-	
-	public static void main(String[] args) {
-		new HighscoreRequest(new GameEngine(new GridMap(), new NavBar()), "GET", "victor", 99).start();
-	}
+
 	
 }

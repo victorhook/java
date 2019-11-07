@@ -7,16 +7,19 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.JFrame;
 import javax.swing.Timer;
 
 import org.json.JSONArray;
-import org.json.JSONObject;
 
 public class GameEngine implements KeyListener {
 
+	private MainGame root;
 	private Snake snake;
 	private GridMap map;
 	private NavBar navBar;
+	private HighScore highScore;
+	private StartMenu startMenu;
 	private Box[][] snakeMap;
 	private ArrayList<Box> snakeBody;
 	private Random rand = new Random();
@@ -24,11 +27,15 @@ public class GameEngine implements KeyListener {
 	private final int DELAY = 120;
 	public static final int UP = 0, RIGHT = 1, DOWN = 2, LEFT = 3;
 	public static final int EMPTY = 10, SNAKE = 20, FOOD = 30;
+	public static final String PLAY = "Play", PLAY_AGAIN = "Play again", SUBMIT = "Submit score",
+				               HIGHSCORE = "Show Highscores", QUIT = "Quit", BACK = "Back to menu";        
+	
 	private boolean gameRunning;
 	private int rows, cols;
 	private int score;
 	
-	public GameEngine(GridMap map, NavBar navBar) {
+	public GameEngine(MainGame root, GridMap map, NavBar navBar) {
+		this.root = root;
 		this.map = map;
 		this.navBar = navBar;
 		this.rows = map.getRows();
@@ -171,19 +178,55 @@ public class GameEngine implements KeyListener {
 				break;
 			}
 	}
+	
+	public void buttonCallback(String button) {
+		switch (button) {
+		case PLAY:
+			
+			break;
+			
+		case PLAY_AGAIN:
+			break;
+			
+		case SUBMIT:
+			//new HighscoreRequest(this, "POST", username, score)
+			break;
+			
+		case HIGHSCORE:
+			new Thread(new HighscoreRequest(this, "GET")).start();
+			break;
+			
+		case BACK:
+			root.showStartMenu();
+			break;
+			
+		case QUIT:
+			System.exit(0);
+			break;
+		}
+		
+	}
 
 	// Unused methods from KeyListener Interface
 	public void keyReleased(KeyEvent arg0) {}
 	public void keyTyped(KeyEvent arg0) {}
 	
 	public void updateHighscores(String highscores) {
-		// highscores is in JSONObject format
-		// From here it's sent to the frontend
+		// Retrieves the data from server and sends it to the frontend
 		JSONArray highscore = new JSONArray(highscores);
-		
-		for (Object obj : highscore) {
-			System.out.println( ((JSONObject)obj).get("Name") );
+
+		Object[][] data = new Object[highscore.length()][3];
+		for (int i = 0; i < highscore.length(); i++) {
+			data[i][0] = highscore.getJSONObject(i).get("Rank");
+			data[i][1] = highscore.getJSONObject(i).get("Name");
+			data[i][2] = highscore.getJSONObject(i).get("Score");
 		}
+		
+		root.addHighscore(new HighScore(data, this));
+	}
+	
+	public void addStartMenu(StartMenu menu) {
+		this.startMenu = menu;
 	}
 	
 }

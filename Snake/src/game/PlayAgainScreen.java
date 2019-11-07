@@ -15,7 +15,7 @@ import javax.swing.border.LineBorder;
 
 public class PlayAgainScreen extends JPanel {
 
-	public PlayAgainScreen() {
+	public PlayAgainScreen(GameEngine engine) {
 		setMinimumSize(new Dimension(600, 500));
 		setPreferredSize(new Dimension(600, 500));
 		setBackground(MainGame.GRAY);
@@ -23,13 +23,13 @@ public class PlayAgainScreen extends JPanel {
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
-		StyledBtn play = new StyledBtn("Play again"); 
+		StyledBtn play = new StyledBtn(engine.PLAY_AGAIN, engine); 
 		
-		StyledBtn submit = new StyledBtn("Submit score");
+		StyledBtn submit = new StyledBtn(engine.SUBMIT, engine);
 		
-		StyledBtn highScore = new StyledBtn("Show HighScores");
+		StyledBtn highScore = new StyledBtn(engine.HIGHSCORE, engine);
 		
-		StyledBtn quit = new StyledBtn("Quit");
+		StyledBtn quit = new StyledBtn(engine.QUIT, engine);
 		
 		gbc.gridy = 0;
 		add(play, gbc);

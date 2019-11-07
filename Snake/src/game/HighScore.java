@@ -15,11 +15,18 @@ import javax.swing.border.EmptyBorder;
 
 public class HighScore extends JPanel {
 
-	public HighScore() {
+	private GameEngine engine;
+	
+	public HighScore(Object[][] data, GameEngine engine) {
+
+		// Standard init configs
 		setMinimumSize(new Dimension(600, 600));
 		setPreferredSize(new Dimension(600, 600));
 		setBackground(MainGame.GRAY);
 		setLayout(new GridBagLayout());
+		
+		
+		// Container for label and button
 		
 		JPanel frame = new JPanel();
 		frame.setLayout(new GridBagLayout());
@@ -32,8 +39,12 @@ public class HighScore extends JPanel {
 		highScoreLabel.setBackground(MainGame.GRAY);
 		highScoreLabel.setPreferredSize(new Dimension(600, 100));
 		
-		Object[][] data = { {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)}, {"Olof", new Integer(2)},  };
-		String[] cols = {"User", "Score"};
+		StyledBtn backBtn = new StyledBtn(GameEngine.BACK, engine, new Dimension(300, 50));
+		
+		
+		// Highscore table
+		
+		String[] cols = {"Rank", "User", "Score"};
 		
 		JTable highscore = new JTable(data, cols);
 		highscore.setPreferredSize(new Dimension(500, 500));
@@ -47,7 +58,8 @@ public class HighScore extends JPanel {
 		scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		scroll.createVerticalScrollBar();
 
-		StyledBtn backBtn = new StyledBtn("Back to menu", new Dimension(300, 50));
+		
+		// Placement of components
 		
 		GridBagConstraints gbc = new GridBagConstraints();
 		
