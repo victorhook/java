@@ -1,1 +1,7 @@
 /bin/
+.classpath
+.project
+highscores
+javax.json-1.1.4.jar
+json-20190722.jar
+.settings
