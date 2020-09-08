@@ -1,0 +1,4 @@
+rootProject.name = 'lab3-gradle'
+
+include 'lab1-gradle'
+project(':lab1-gradle').projectDir = new File('../lab1-gradle')
