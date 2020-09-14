@@ -5,16 +5,15 @@ import java.util.List;
 
 public class Scheduler {
 	private Machine[] machines;
+
 	/** Skapar en schemaläggare för maskinerna 
 		i vektorn machines. */
-	
 	public Scheduler(Machine[] machineArray) {
-		Machine[] machines = machineArray;
+		machines = machineArray;
 	}
 	
 	/* Returnerar den maskin som har minst att göra. */
 	private Machine machineWithLeastToDo() {
-		if (machines == null) return null;
 		int min = Integer.MAX_VALUE;
 		int minPos = -1;
 		for (int i = 0; i < machines.length; i++) {
@@ -32,12 +31,9 @@ public class Scheduler {
 		List<Job> tempJobList = new ArrayList<>(jobs);
 		tempJobList.sort(new DescTimeComp());
 		for (Job j : tempJobList) {
-			if (m) {
-				
-			}
-			Machine m = machineWithLeastToDo();
+			Machine m = machineWithLeastToDo();	
 			m.assignJob(j);
-		}
+		}	
 	}
 	
 	/** Tar bort alla jobb från maskinerna. */
@@ -49,7 +45,7 @@ public class Scheduler {
 
 	/** Skriver ut maskinernas scheman. */
 	public void printSchedule() {
-		for (int i = 0; i <= machines.length; i++) {
+		for (int i = 0; i < machines.length; i++) {
 			System.out.println(machines[i]);
 		}
 	}
