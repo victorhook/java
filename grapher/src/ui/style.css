@@ -1,0 +1,22 @@
+.root{
+    -fx-font-family: "Courier New bold";
+    -fx-font-size: 120%;
+    -fx-background-color: rgba(0, 102, 204, .8);
+}
+
+.label {
+    -fx-text-fill: black;
+}
+
+#distroInfo {
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-border-insets: 5px;
+}
+
+#graph {
+    -fx-border-color: white;
+    -fx-border-width: 1;
+    -fx-margin: 30;
+    -fx-border-insets: 5px;
+}

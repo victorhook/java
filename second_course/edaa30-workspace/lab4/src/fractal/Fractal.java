@@ -1,6 +1,7 @@
 package fractal;
 public abstract class Fractal {
 	protected int order;
+	protected int dev;
 
 	/** Construts a fractal object.
 	 * @param order the order of the fractal 
@@ -36,6 +37,18 @@ public abstract class Fractal {
 	public String toString() {
 		return getTitle();
 	}
+
+	/**
+	 * Sets the dev value, used for increasing the y-value
+	 * @param dev
+	 */
+	public void setDev(int dev) { this.dev = dev; }
+
+	/**
+	 * Gets the dev value, used for increasing the y-value
+	 * @return dev
+	 */
+	public int getDev() { return dev; }
 
 	/** Draws the fractal.  
 	 * @param g the turtle graphic object

@@ -2,6 +2,7 @@ package textproc;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.AbstractListModel;
 
@@ -9,11 +10,20 @@ public class SortedListModel<E> extends AbstractListModel<E> {
 	private List<E> list;
 	
 	public SortedListModel(List<E> list) {
-        this.list = list;
+		this.list = list;
     }
 	
 	public void sort(Comparator<E> comp) {
 		list.sort(comp);
+		fireContentsChanged(this, 0, list.size());
+	}
+
+	public List<E> getList() {
+		return list;
+	}
+
+	public void setNewList(List<E> list) {
+		this.list = list;
 		fireContentsChanged(this, 0, list.size());
 	}
 

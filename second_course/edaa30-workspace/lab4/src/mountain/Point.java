@@ -24,7 +24,15 @@ public class Point {
 	public int getY() {
 		return y;
 	}
-	
+
+	public Point addX(int dx) {
+		return new Point(this.x + dx, this.y);
+	}
+
+	public Point addY(int dy) {
+		return new Point(this.x, this.y + dy);
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Point) {
@@ -38,6 +46,10 @@ public class Point {
 	@Override
 	public int hashCode() {
 	    return  31 * x + y;
+	}
+
+	public String toString() {
+		return String.format("(%s, %s)", x, y);
 	}
 	
 }

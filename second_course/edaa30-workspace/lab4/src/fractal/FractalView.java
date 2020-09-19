@@ -55,12 +55,21 @@ public class FractalView {
             }
         };
 
+        JLabel devLabel = new JLabel("---") {
+            @Override
+            public void paintComponent(Graphics g) {
+                setText("Dev: " + actFractal.getDev());
+                super.paintComponent(g);
+            }
+        };
+
         JButton upButton = new JButton("\u25B2");
         upButton.setFocusPainted(false);
         upButton.addActionListener(e -> {
             actFractal.setOrder(actFractal.getOrder() + 1);
             drawingPanel.repaint();
             orderLabel.repaint();
+            devLabel.repaint();
         });
 
         JButton downButton = new JButton("\u25BC");
@@ -70,6 +79,27 @@ public class FractalView {
                 actFractal.setOrder(actFractal.getOrder() - 1);
                 drawingPanel.repaint();
                 orderLabel.repaint();
+                devLabel.repaint();
+            }
+        });
+
+        JButton upButtonDev = new JButton("\u25B2");
+        upButtonDev.setFocusPainted(false);
+        upButtonDev.addActionListener(e -> {
+            actFractal.setDev(actFractal.getDev() + 1);
+            drawingPanel.repaint();
+            orderLabel.repaint();
+            devLabel.repaint();
+        });
+
+        JButton downButtonDev = new JButton("\u25BC");
+        downButtonDev.setFocusPainted(false);
+        downButtonDev.addActionListener(e -> {
+            if (actFractal.getOrder() > 0) {
+                actFractal.setDev(actFractal.getDev() - 1);
+                drawingPanel.repaint();
+                orderLabel.repaint();
+                devLabel.repaint();
             }
         });
 
@@ -83,9 +113,14 @@ public class FractalView {
             actFractal.setOrder(0);
             drawingPanel.repaint();
             orderLabel.repaint();
+            devLabel.repaint();
         });
         commandPanel.add(comboBox);
         commandPanel.add(orderLabel);
+        commandPanel.add(downButtonDev);
+        commandPanel.add(upButtonDev);
+        commandPanel.add(devLabel);
+
 
         frame.add(commandPanel, BorderLayout.SOUTH);
         frame.add(drawingPanel, BorderLayout.CENTER);
