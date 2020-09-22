@@ -7,6 +7,7 @@ import java.nio.CharBuffer;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public class XMLParser {
 
@@ -19,11 +20,206 @@ public class XMLParser {
         TAG_ARGS,
     }
 
+    private enum Mode1 {
+        DEFAULT,
+        TAG_START,
+        TAG_END,
+        KWARG,
+        STRING,
+        CDATA
+    }
+
+    private static final ArrayList<String> KEYWORDS = new ArrayList<>(Arrays.asList(new String[]{
+            "rss", "channel", "title", "description", "language",
+            "rating", "copyright", "pubDate", "lastBuildDate",
+            "generator", "docs", "cloud", "ttl", "managingEditor",
+            "webMaster", "skipHours", "image", "url", "link",
+            "width", "height", "category", "author", "source",
+            "item", "textInput", "name", "hour", "day", "guid",
+            "skipDays", "comments", "enclosure", "atom:link",
+            "uri", "icon", "updated", "subtitle", "entry",
+            "feed"}));
+
+
     Deque<Field> tags;
 
     public static void main(String[] args) throws Exception {
         XMLParser parser = new XMLParser();
-        parser.parseRe();
+        parser.parse();
+    }
+
+    public void parse() throws Exception {
+
+        FileReader reader = new FileReader(new File("temp.xml"));
+        int next;
+        char c = 0, prevC = 0;
+        StringBuilder cData = new StringBuilder();
+        StringBuilder tagName = new StringBuilder();
+        StringBuilder tagKey = new StringBuilder();
+        StringBuilder tagValue = new StringBuilder();
+        StringBuilder content = new StringBuilder();
+
+        Tag currentTag = null;
+        Stack<Tag> stack = new Stack<>();
+        Mode1 mode = Mode1.DEFAULT;
+
+        while ( (next = reader.read()) >= 0 ) {
+            c = (char) next;
+
+            if (c == '\n') continue;
+
+            switch (mode) {
+                case DEFAULT: {
+                    if (c == '<') {
+                        mode = Mode1.TAG_START;
+                        tagName.setLength(0);
+                        tagKey.setLength(0);
+                        tagValue.setLength(0);
+                    } else {
+                        content.append(c);
+                    }
+                }
+                break;
+                case TAG_START: {
+                    if (c == '/') {
+                        String con = content.toString().strip();
+                        if (con.length() > 0) {
+                            currentTag.content = con;
+                            content.setLength(0);
+                        }
+                        tagName.setLength(0);
+                        mode = Mode1.TAG_END;
+                    } else if (c == ' ' && tagName.length() != 0) {
+                        String tag = tagName.toString();
+                        if (KEYWORDS.contains(tag)) {
+                            currentTag = new Tag(tag);
+                            tagName.setLength(0);
+                            content.setLength(0);
+                            stack.push(currentTag);
+                            mode = Mode1.KWARG;
+                        }
+                    } else if (c == '>') {
+                        String tag = tagName.toString();
+                        if (KEYWORDS.contains(tag)) {
+                            currentTag = new Tag(tag);
+                            tagName.setLength(0);
+                            content.setLength(0);
+                            stack.push(currentTag);
+                            mode = Mode1.DEFAULT;
+                        }
+                    } else if (c == '!') {
+                        mode = Mode1.CDATA;
+                    } else {
+                        content.append(c);
+                        tagName.append(c);
+                    }
+                }
+                break;
+                case KWARG: {
+                    if (c == '"') {
+                        mode = Mode1.STRING;
+                    } else if (c == '>') {
+                        mode = Mode1.DEFAULT;
+                    } else if (c != '=') {
+                        tagKey.append(c);
+                    }
+                }
+                break;
+                case STRING: {
+                    if (c == '"') {
+                        currentTag.setKwarg(tagKey.toString(), tagValue.toString());
+                        mode = Mode1.KWARG;
+                    } else {
+                        tagValue.append(c);
+                    }
+                }
+                break;
+                case TAG_END: {
+                    if (c == '>') {
+                        String tag = tagName.toString();
+                        if (KEYWORDS.contains(tag)) {
+                            closeTag(stack, tag);
+                            mode = Mode1.DEFAULT;
+                            content.setLength(0);
+                            tagName.setLength(0);
+                        }
+                    } else {
+                        content.append(c);
+                        tagName.append(c);
+                    }
+                }
+                break;
+                case CDATA: {
+                    if (c == ']' && prevC == ']') {
+                        currentTag.cData = cData.toString();
+                        cData.setLength(0);
+                        mode = Mode1.KWARG;
+                    } else {
+                        cData.append(c);
+                    }
+                }
+                break;
+            }
+            prevC = c;
+
+        }
+
+        System.out.println(stack.pop());
+    }
+
+    private void closeTag(Stack stack, String name) {
+        ArrayList<Tag> children = new ArrayList<>();
+        Tag tag;
+        while (!stack.isEmpty()) {
+            tag = (Tag) stack.peek();
+            if (tag.name.equals(name)) {
+                Collections.reverse(children);
+                tag.children = children;
+                return;
+            } else {
+                children.add((Tag) stack.pop());
+            }
+        }
+    }
+
+    class Tag {
+        private String name;
+        private String content;
+        private String cData;
+        private ArrayList<Tag> children;
+        private Map<String, String> kwargs;
+
+        private Tag(String name) {
+            this.name = name;
+            this.content = null;
+            this.children = new ArrayList<>();
+            this.kwargs = new HashMap<>();
+        }
+
+        public String toString() {
+            StringJoiner sj = new StringJoiner(", ");
+            StringBuilder string = new StringBuilder(String.format("<%s", name));
+            if (kwargs.size() > 0) {
+                string.append(" ");
+                kwargs.keySet().stream().forEach(n -> sj.add(
+                        String.format("%s: %s", n, kwargs.get(n))));
+                string.append(sj);
+            }
+            string.append(String.format("> %s\n", content));
+
+
+            for (Tag child: children) {
+                string.append(String.format("\t%s", child));
+            }
+
+            string.append(String.format("</%s>\n", name));
+
+            return String.format("%s", string.toString());
+        }
+
+        private void setKwarg(String key, String value) {
+            this.kwargs.put(key, value);
+        }
     }
 
     public void parseRe() throws Exception {
@@ -79,7 +275,7 @@ public class XMLParser {
     }
 
 
-    public void parse() throws Exception {
+    public void parse2() throws Exception {
         BufferedReader reader = new BufferedReader(new FileReader("temp.xml"));
         Mode mode = Mode.DEFAULT;
 

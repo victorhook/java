@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<rss version="2.0">
+   <channel>
+      <title>TutorialsPoint</title>
+      <link>http://www.tutorialspoint.com</link>
+      <description>Tutorials and Reference Manuals</description>
+
+      <language>en-us</language>
+      <pubDate>Fri, 30 May 2003 11:06:42 GMT</pubDate>
+      <lastBuildDate>Fri, 30 May 2003 11:06:42 GMT</lastBuildDate>
+
+      <docs>http://www.tutorialspoint.com/rss</docs>
+      <generator>Weblog Editor 2.0</generator>
+      <managingEditor>mohtashim@tutorialspoint.com</managingEditor>
+
+      <webMaster>webmaster@tutorialspoint.com</webMaster>
+
+      <item>
+         <title>RSS Tutorial</title>
+         <link>http://www.tutorialspoint.com/rss</link>
+         <description>Learn RSS in simple steps</description>
+
+         <pubDate>Fri, 30 May 2003 11:06:42 GMT</pubDate>
+
+         <guid>
+            http://www.tutorialspoint.com/rss/rss-feed-formats.htm#v0.91
+         </guid>
+
+      </item>
+
+      <item>
+         <description>RSS Feed Formats</description>
+         <pubDate>Fri, 30 May 2003 11:06:42 GMT</pubDate>
+
+         <guid>
+            http://www.tutorialspoint.com/rss/rss-feed-formats.htm#v2.0
+         </guid>
+
+      </item>
+    </channel>
+</rss>

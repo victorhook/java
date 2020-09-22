@@ -1,0 +1,360 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+<script/>
+<script>(function (toContentScriptEventName, fromContentScriptEventName) { if (XMLHttpRequest.wrapped === true) { return; } // used to decode all encoded HTML (convert '&' to &amp;) const parseElem = document.createElement('textarea'); const parseChannelName = function (channelNameToParse) { function fixedEncodeURIComponent(str) { return encodeURIComponent(str).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16)}`); } parseElem.innerHTML = DOMPurify.sanitize(channelNameToParse); const channelName = parseElem.innerText; // Remove whitespace, and encode return fixedEncodeURIComponent(channelName.replace(/\s/g, '')); }; // Parse a URL. Based upon http://blog.stevenlevithan.com/archives/parseuri // parseUri 1.2.2, (c) Steven Levithan <stevenlevithan.com>, MIT License // Inputs: url: the URL you want to parse // Outputs: object containing all parts of |url| as attributes const parseUriRegEx = /^(([^:]+(?::|$))(?:(?:\w+:)?\/\/)?(?:[^:@/]*(?::[^:@/]*)?@)?(([^:/?#]*)(?::(\d*))?))((?:[^?#/]*\/)*[^?#]*)(\?[^#]*)?(#.*)?/; const parseUri = function (theURL) { const matches = parseUriRegEx.exec(theURL); // The key values are identical to the JS location object values for that key const keys = ['href', 'origin', 'protocol', 'host', 'hostname', 'port', 'pathname', 'search', 'hash']; const uri = {}; for (let i = 0; (matches && i < keys.length); i++) { uri[keys[i]] = matches[i] || ''; } return uri; }; // Parses the search part of a URL into a key: value object. // e.g., ?hello=world&ext=adblock would become {hello:"world", ext:"adblock"} // Inputs: search: the search query of a URL. Must have &-separated values. parseUri.parseSearch = function parseSearch(searchQuery) { const params = {}; let search = searchQuery; let pair; // Fails if a key exists twice (e.g., ?a=foo&a=bar would return {a:"bar"} search = search.substring(search.indexOf('?') + 1).split('&'); for (let i = 0; i < search.length; i++) { pair = search[i].split('='); if (pair[0] && !pair[1]) { pair[1] = ''; } const pairKey = decodeURIComponent(pair[0]); const pairValue = decodeURIComponent(pair[1]); if (pairKey && pairValue !== 'undefined') { params[pairKey] = pairValue; } } return params; }; // Strip third+ level domain names from the domain and return the result. // Inputs: domain: the domain that should be parsed // keepDot: true if trailing dots should be preserved in the domain // Returns: the parsed domain parseUri.secondLevelDomainOnly = function stripThirdPlusLevelDomain(domain, keepDot) { if (domain) { const match = domain.match(/([^.]+\.(?:co\.)?[^.]+)\.?$/) || [domain, domain]; return match[keepDot ? 0 : 1].toLowerCase(); } return domain; }; function updateURLWrapped(channelName) { if (channelName) { const parsedChannelName = parseChannelName(channelName); let updatedUrl; let [baseUrl] = window.location.href.split('&ab_channel'); [baseUrl] = baseUrl.split('?ab_channel'); if (parseUri(window.location.href).search.indexOf('?') === -1) { updatedUrl = `${baseUrl}?&ab_channel=${parsedChannelName}`; } else { updatedUrl = `${baseUrl}&ab_channel=${parsedChannelName}`; } // Add the name of the channel to the end of URL window.history.replaceState(null, null, updatedUrl); } } let ytInitialPlayerResponseWrapped; const ytDescriptor = { configurable: true, get() { return ytInitialPlayerResponseWrapped; }, set(newValue) { // eslint-disable-next-line no-console ytInitialPlayerResponseWrapped = newValue; if ( ytInitialPlayerResponseWrapped && ytInitialPlayerResponseWrapped.videoDetails && ytInitialPlayerResponseWrapped.videoDetails.author ) { const { author, videoId } = ytInitialPlayerResponseWrapped.videoDetails; updateURLWrapped(author); document.dispatchEvent(new CustomEvent(toContentScriptEventName, { detail: { channelName: author, videoId } })); } }, }; Object.defineProperty(window, 'ytInitialPlayerResponse', ytDescriptor); const theObjectDefineProperty = Object.defineProperty; Object.defineProperty = function defineProperties(obj, prop, descriptor) { // Prevent YT specific snippets from clobbering our overriding if (prop === 'ytInitialPlayerResponse') { return; } theObjectDefineProperty(obj, prop, descriptor); }; const XHR = XMLHttpRequest.prototype; XMLHttpRequest.wrapped = true; const mySend = XHR.send; const myOpen = XHR.open; XHR.open = function theOpen(...args) { if (args.length > 1) { [, this.url] = args; } else { this.url = ''; } return myOpen.apply(this, args); }; XHR.send = function theSend(...args) { if (this.url.includes('https://www.youtube.com/watch?v=')) { this.addEventListener('load', function eventHandler() { try { const responseArray = JSON.parse(this.response); if (responseArray) { for (const item in responseArray) { if ( responseArray[item] && responseArray[item].playerResponse && responseArray[item].playerResponse.videoDetails && responseArray[item].playerResponse.videoDetails.author ) { const { author, videoId } = responseArray[item].playerResponse.videoDetails; updateURLWrapped(author); document.dispatchEvent(new CustomEvent(toContentScriptEventName, { detail: { channelName: author, videoId } })); return; } } } } catch (ex) { // eslint-disable-next-line no-console console.log('ex', ex); } }); } return mySend.apply(this, args); }; // process the event messages from the content script document.addEventListener(fromContentScriptEventName, (event) => { if (event && event.detail && event.detail.channelName) { updateURLWrapped(event.detail.channelName); } if (event && event.detail && event.detail.removeChannelName) { // remove the query string from the URL const params = parseUri.parseSearch(window.location.search); const queryString = Object.keys(params).reduce((prev, key, i) => { if (key !== 'ab_channel') { return `${prev}${i !== 0 ? '&' : ''}${key}=${params[key]}`; } return prev; }, ''); window.history.replaceState(null, null, `${window.location.origin}${window.location.pathname}?${queryString}`); } }); })('ab-yt-channel-name-tp23i265gd', 'yt-ab-channel-name-tao14yzqadm');</script>
+<link rel="self" href="http://www.youtube.com/feeds/videos.xml?user=ouramazingspace"/>
+<id>yt:channel:UCakgsb0w7QB0VHdnCc-OVEA</id>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Space Videos</title>
+<link rel="alternate" href="https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2014-11-09T17:55:08+00:00</published>
+<entry>
+<id>yt:video:WhiANlFH9so</id>
+<yt:videoId>WhiANlFH9so</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>SpaceX SAOCOM 1B Launch and Landing Full HD!</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=WhiANlFH9so"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-09-11T15:32:26+00:00</published>
+<updated>2020-09-11T15:38:39+00:00</updated>
+<media:group>
+<media:title>SpaceX SAOCOM 1B Launch and Landing Full HD!</media:title>
+<media:content url="https://www.youtube.com/v/WhiANlFH9so?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i4.ytimg.com/vi/WhiANlFH9so/hqdefault.jpg" width="480" height="360"/>
+<media:description>#SpaceX recently released its great video of the launch and landing of the Falcon 9 during the SAOCOM 1 mission. Unfortunately, it was in 360p! So using AI software I upscaled it full HD , hope you like it Original @SpaceX video here: https://www.youtube.com/watch?v=lXgLyCYuYA4 Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="952" average="4.93" min="1" max="5"/>
+<media:statistics views="12508"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:aKgD2e5MAvM</id>
+<yt:videoId>aKgD2e5MAvM</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Typhoon Maysak / Typhoon Haishen seen from space : Latest Images</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=aKgD2e5MAvM"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-09-06T14:37:16+00:00</published>
+<updated>2020-09-08T06:36:30+00:00</updated>
+<media:group>
+<media:title>Typhoon Maysak / Typhoon Haishen seen from space : Latest Images</media:title>
+<media:content url="https://www.youtube.com/v/aKgD2e5MAvM?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/aKgD2e5MAvM/hqdefault.jpg" width="480" height="360"/>
+<media:description>Thanks for joining us here on Space Videos. This timelapse was created from images taken by Japan Meteorological Agency , Himawari 8 Satellite. The video covers the last 7 days showing Typhoon Maysak and the formation of Typhoon Haishen, starting from the 31st August right up to the latest images this morning 6th September (UCT) Both storms have caused destruction to parts of China, Taiwan, South Korea and China Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="1003" average="4.88" min="1" max="5"/>
+<media:statistics views="25527"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:XY8ssIaXI_Q</id>
+<yt:videoId>XY8ssIaXI_Q</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Moon Rise Tonight - 4th September 2020 UK</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=XY8ssIaXI_Q"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-09-04T21:19:16+00:00</published>
+<updated>2020-09-07T16:22:08+00:00</updated>
+<media:group>
+<media:title>Moon Rise Tonight - 4th September 2020 UK</media:title>
+<media:content url="https://www.youtube.com/v/XY8ssIaXI_Q?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/XY8ssIaXI_Q/hqdefault.jpg" width="480" height="360"/>
+<media:description>Moon rise captured this evening. Beautiful giant orange / yellow moon rose behind the clouds. Looked spectacular Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="683" average="4.85" min="1" max="5"/>
+<media:statistics views="13288"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:ph1FkpczHTc</id>
+<yt:videoId>ph1FkpczHTc</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>NASA SLS Booster Test</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=ph1FkpczHTc"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-09-02T19:15:04+00:00</published>
+<updated>2020-09-02T19:26:31+00:00</updated>
+<media:group>
+<media:title>NASA SLS Booster Test</media:title>
+<media:content url="https://www.youtube.com/v/ph1FkpczHTc?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/ph1FkpczHTc/hqdefault.jpg" width="480" height="360"/>
+<media:description>NASA will broadcast a Space Launch System (SLS) rocket full-scale booster test at 2:45 p.m. EDT Wednesday, Sept. 2, on NASA Television and the agency’s website, followed by a media teleconference. The Flight Support Booster-1 test builds on three full-scale development test firings and two qualification test firings NASA and Northrop Grumman successfully completed with the five-segment solid rocket motor in preparation for the first three Artemis missions. The Sept. 2 test at Northrop Grumman facilities in Promontory, Utah, will help teams evaluate potential new materials, processes, and improvements for the boosters that will power deep space missions beyond Artemis III. The test also will provide another opportunity to evaluate motor manufacturing and performance. About an hour and 30 minutes after the test, media will have the opportunity to participate in a teleconference with: Bruce Tiller, manager of the SLS boosters office at NASA’s Marshall Space Flight Center in Huntsville, Alabama Charlie Precourt, vice president of propulsion systems at Northrop Grumman, in Promontory To participate, media must contact Kathryn Hambleton at 202-358-1100 or kathryn.hambleton@nasa.gov no later than noon Tuesday, Sept. 1. During the broadcast, anyone can submit questions on Twitter using the hashtag #AskNASA. Updates on the test will be posted on the Artemis blog. Powered by four RS-25 engines and two boosters, the SLS rocket produces more than 8 million pounds of thrust to power missions to the Moon and, ultimately, Mars. The twin five-segment solid rocket boosters produce more than 75% of the rocket’s thrust during the first two minutes of ascent. This latest booster test will take place as teams at NASA’s Kennedy Space Center in Florida begin assembling the boosters for Artemis I, the first launch of SLS and NASA’s Orion spacecraft. The SLS rocket, Orion spacecraft, Gateway, and human landing system are part of NASA’s backbone for deep space exploration. The Artemis program is the next step in human space exploration and is part of America’s broader Moon to Mars exploration approach, in which astronauts will explore the Moon. Experience gained there will enable humanity’s next giant leap: sending humans to Mars. Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="1577" average="4.86" min="1" max="5"/>
+<media:statistics views="46097"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:iGLbXHg92Wg</id>
+<yt:videoId>iGLbXHg92Wg</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>NO! We are not going to be hit by an Asteroid! Late Night Rant!</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=iGLbXHg92Wg"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-09-01T22:23:56+00:00</published>
+<updated>2020-09-02T23:17:15+00:00</updated>
+<media:group>
+<media:title>NO! We are not going to be hit by an Asteroid! Late Night Rant!</media:title>
+<media:content url="https://www.youtube.com/v/iGLbXHg92Wg?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/iGLbXHg92Wg/hqdefault.jpg" width="480" height="360"/>
+<media:description>OK , so I'm getting more and more annoyed about the headlines floating around about an upcoming asteroid hitting Earth - there's one about September 6th, others about November. These types of scaremongering nonsense just get regurgitated time and time again and all it does is feed into people's fears. We've had a pretty crappy 2020 but to imply that its going to get worse because of an asteroid strike is utterly irresponsible. Remember , when NASA talk about a close approach they talk in thousands if not MILLIONS of miles from Earth. Talk of asteroids buzzing Earth, or on collision courses are just there as clickbait and nothing more Im afraid! #asteroid #earth #2020 Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="953" average="4.73" min="1" max="5"/>
+<media:statistics views="18411"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:iNWRpaetidQ</id>
+<yt:videoId>iNWRpaetidQ</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>SpaceX Starship Heavy Booster Production to Begin This Week Elon Says!!</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=iNWRpaetidQ"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-09-01T14:05:58+00:00</published>
+<updated>2020-09-01T16:37:30+00:00</updated>
+<media:group>
+<media:title>SpaceX Starship Heavy Booster Production to Begin This Week Elon Says!!</media:title>
+<media:content url="https://www.youtube.com/v/iNWRpaetidQ?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/iNWRpaetidQ/hqdefault.jpg" width="480" height="360"/>
+<media:description>Just a little SpaceX Starship News with some info on the progress of the Super Heavy booster. Last night, 31st August, Elon gave an interview to the Humans to Mars Summit where he discussed going to the moon, to Mars and Starship. He revealed that Starship Heavy boosters would begin production THIS WEEK as well as changes to the Raptor configuration. You can listen to the full interview here:https://www.twitch.tv/videos/727403822 ALso, check out Mary / Bocachicagirl on twitter.com/bocachicagirl and nasaspaceflight.com for all the latest info from Texas! Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="535" average="4.68" min="1" max="5"/>
+<media:statistics views="16729"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:PohaYCAGDks</id>
+<yt:videoId>PohaYCAGDks</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>SpaceX : SAOCOM 1B Polar Orbit Highlights - Launch, Landing, Deployment</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=PohaYCAGDks"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-08-30T23:59:21+00:00</published>
+<updated>2020-09-03T18:18:00+00:00</updated>
+<media:group>
+<media:title>SpaceX : SAOCOM 1B Polar Orbit Highlights - Launch, Landing, Deployment</media:title>
+<media:content url="https://www.youtube.com/v/PohaYCAGDks?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/PohaYCAGDks/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX is targeting Sunday, August 30 at 7:18 p.m. EDT, or 23:18 UTC, for Falcon 9’s launch of the SAOCOM 1B mission, which will carry the SAOCOM 1B spacecraft to orbit in addition to two rideshare payloads, Tyvak-0172 and PlanetiQ’s GNOMES-1. The mission will lift off from Space Launch Complex 40 (SLC-40) at Cape Canaveral Air Force Station in Florida. This mission marks SpaceX’s first launch to a polar orbit from the East Coast, and the first polar launch from Florida in decades. Falcon 9’s first stage previously launched Dragon to the International Space Station for SpaceX’s 19th and 20th commercial resupply missions, and it also supported launch of SpaceX’s ninth Starlink mission. Following stage separation, SpaceX will land Falcon 9 on Landing Zone 1 at Cape Canaveral Air Force Station. SAOCOM 1B will deploy approximately 14 minutes after launch, GNOMES-1 and Tyvak-0172 will deploy approximately 61 and 62 minutes after liftoff. You can watch the launch webcast here, starting about 15 minutes before liftoff. #SpaceX #SAOCOM1b #SpaceXlanding 00:00 Launch: 00:26 Landing : 07:40 Satellite Deployment: 14:33</media:description>
+<media:community>
+<media:starRating count="575" average="4.90" min="1" max="5"/>
+<media:statistics views="9226"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:NhPkgwnGZo4</id>
+<yt:videoId>NhPkgwnGZo4</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>ULA NROL-44 Last Second Hot Fire Abort! Delta IV Heavy</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=NhPkgwnGZo4"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-08-29T11:53:02+00:00</published>
+<updated>2020-09-01T14:16:43+00:00</updated>
+<media:group>
+<media:title>ULA NROL-44 Last Second Hot Fire Abort! Delta IV Heavy</media:title>
+<media:content url="https://www.youtube.com/v/NhPkgwnGZo4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i3.ytimg.com/vi/NhPkgwnGZo4/hqdefault.jpg" width="480" height="360"/>
+<media:description>So this morning launch of ULA's Delta IV heavy almost happened. The launch was aborted literally at the last second. This mission – NROL-44 was to launch a payload for National Reconnaissance Office (NRO) , supporting US national security The launch had already been scrubbed the night before. After that abort ULA said the issue was with a critical ground pneumatics control system With the launch rescheduled for 24 hours later, everything was looking good – and the countdown had entered its final phase. With the commentator even declaring “Liftoff....” as T-0 was reached. Before announcing they had had a hot fire abort. ULA released a tweet saying, rhe launch of a United Launch Alliance #DeltaIVHeavy carrying the #NROL44 mission for the National Reconnaissance Office was scrubbed today due to an unexpected condition during terminal count at approximately three seconds before liftoff. They went on to say that it would take at least 7 days for another launch attempt TORY BRUNO – CEO of ULA said The bird is in good shape. This was an automatic abort during the ignition sequence. Cause appears to have been in the ground system. System functioned as intended to protect the vehicle and payload. Whether the failure detected tonight was connected to yesterday's abort isn't clear and they could be two completely separate issues. But , from a ULA perspective, their systems worked as they should. They detected an anomaly and they shut down the launch automatically – with the rocket and its payload being protected, which of course is their priority. Of course, the spectacular fireball that occurs before the launch of a DELTA IV Heavy can surprise some people and could give the impression of problem in itself. However, this is perfectly normal for this launch system and the rocket is designed to be protected from the fire and heat. The fireball occurs as hydrogen is pushed through the engines a few seconds before being mixed with oxygen – as that hydrogen leaves the engine it rises up the side of the rocket and is ignited once the engines fire. Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="571" average="4.79" min="1" max="5"/>
+<media:statistics views="15373"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:14XWKeY797E</id>
+<yt:videoId>14XWKeY797E</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Launch: Ariane 5 VA253: (Win Some Ariane Goodies )</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=14XWKeY797E"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-08-15T23:20:51+00:00</published>
+<updated>2020-08-29T12:12:34+00:00</updated>
+<media:group>
+<media:title>Launch: Ariane 5 VA253: (Win Some Ariane Goodies )</media:title>
+<media:content url="https://www.youtube.com/v/14XWKeY797E?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/14XWKeY797E/hqdefault.jpg" width="480" height="360"/>
+<media:description>FLIGHT VA253 - OK during our live stream we gave away some Ariane Goodies to those who came up with the best Ariane facts - the live stream may have ended but you still have a chance to win! In the comments, leave an Ariane fact - the best one will get a prize simples ! Tonight we will be giving you the chance to win some Ariane goodies! We want you to tell us your best Ariane fact - this can be about anything connected to the Ariane family of rockets. The best fact of the night will get to spend up to 20 euros in the ariane shop (You can check it out here: https://shop.spreadshirt.net/arianeshop/) If you need a little help why not tweet @ArianeGroup using the hashtag #Askourengineers and see if they can give some special info! (tell them @amazingspace2 sent you !!) or head to the Ariane website www.ariane.group (Also, this giveaway isnt connected to Arianespace or ArianeGroup in any way , just a bit of fun that we decided to have on Space Videos tonight) Thanks for joining us as we follow the Arianespace Livestream of flight VA253. This launch will see Ariane 5 deploy two telecommunications satellites (Galaxy 30 and BSAT-4b) and one life extension vehicle (Mission Extension Vehicle-2 or MEV-2) Liftoff is planned on Saturday, August 15, 2020, as early as possible within the following launch window: Between 5:33 p.m. and 6:20 p.m. Washington, D.C. time, Between 6:33 p.m. and 7:20 p.m. Kourou, French Guiana time, Between 21:33 and 22:20 Universal time (UTC), Between 11:33 p.m. and 12:20 a.m. Paris time, in the night of August 15 to August 16, Between 06:33 a.m. and 07:20 a.m. Japan time, in the morning of August 16. Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9</media:description>
+<media:community>
+<media:starRating count="261" average="4.72" min="1" max="5"/>
+<media:statistics views="7392"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:TB8S104Q1Zg</id>
+<yt:videoId>TB8S104Q1Zg</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>SpaceX Starlink MIssion 9 Highlights (Launch / landing / deployment)</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=TB8S104Q1Zg"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-08-07T11:46:20+00:00</published>
+<updated>2020-09-06T14:46:35+00:00</updated>
+<media:group>
+<media:title>SpaceX Starlink MIssion 9 Highlights (Launch / landing / deployment)</media:title>
+<media:content url="https://www.youtube.com/v/TB8S104Q1Zg?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/TB8S104Q1Zg/hqdefault.jpg" width="480" height="360"/>
+<media:description>So in the wee hours of this morning SpaceX completed another successful Starlink mission - deployed 57 satellites. This means there are nearly 600 Starlinks orbiting the Earth (5 of which have been deorbited since launch) Normally SpaceX would send up 60 at a time. On this mission they launched 57 as they were carrying two satellites for a customer. Of course, Starlink has been controversial in some quarters with concerns raised from the astronomy community as the effect of the satellites are having on viewing the cosmos. On this mission all 57 Starlinks had their own sunshade - a visor that is designed to significantly cut down on the reflected light. This video will cover the launch and landing of the SpaceX Falcon 9 as well as the deployment of the Starlink satellites Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="867" average="4.86" min="1" max="5"/>
+<media:statistics views="16438"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:JKnrYopmQn4</id>
+<yt:videoId>JKnrYopmQn4</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Arrival: 4K Soyuz approach and docking with the International Space Station</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=JKnrYopmQn4"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-07-29T15:00:13+00:00</published>
+<updated>2020-08-23T23:07:44+00:00</updated>
+<media:group>
+<media:title>Arrival: 4K Soyuz approach and docking with the International Space Station</media:title>
+<media:content url="https://www.youtube.com/v/JKnrYopmQn4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i3.ytimg.com/vi/JKnrYopmQn4/hqdefault.jpg" width="480" height="360"/>
+<media:description>This video was taken originally by the crewmembers aboard the Soyuz TMA-16M spacecraft which docked to the International Space Station at 9:33 p.m. EDT March 27, 2015. Using AI software, it has been upscaled to 4K revealing more detail of this spectacular approach and arrival at the ISS. I know many will ask about the "objects" which look like they are whizzing past the capsule - this is nothing more than the cryogenic remnants of the maneuvering thrusters which can also be seen here https://twitter.com/AstroKomrade/status/893260442457571328?s=20 NASA astronaut Scott Kelly and Russian cosmonauts Mikhail Kornienko and Gennady Padalka arrived just six hours after launching from Baikonur, Kazakhstan, completing four orbits around the Earth before catching up with the orbiting laboratory. The vehicle docked to the Poisk module (also known as the Mini-Research Module 2) on the space-facing side of the Russian Service Module. The spinning object in view is an antenna that is part of the automatic rendezvous and docking system known as KURS. Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Stellardrone and used under Creative Commons License https://stellardrone.bandcamp.com/track/pale-blue-dot</media:description>
+<media:community>
+<media:starRating count="1245" average="4.87" min="1" max="5"/>
+<media:statistics views="62167"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:j2i7njkFNr0</id>
+<yt:videoId>j2i7njkFNr0</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Earth From Space: USA to Venezuela seen from the ISS (Great views of Florida and Cuba)</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=j2i7njkFNr0"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-07-16T17:30:03+00:00</published>
+<updated>2020-08-23T23:07:44+00:00</updated>
+<media:group>
+<media:title>Earth From Space: USA to Venezuela seen from the ISS (Great views of Florida and Cuba)</media:title>
+<media:content url="https://www.youtube.com/v/j2i7njkFNr0?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i3.ytimg.com/vi/j2i7njkFNr0/hqdefault.jpg" width="480" height="360"/>
+<media:description>Created from thousands of seperate photos taken by astronauts aboard the International Space Station - this video follow the ISS as it passes over North America and heads South. The journey starts over the state of Washington and travelling in a southeasterly direction ends as it reaches the coast of Venezuela - there are some spectacular views of Florida and Cuba along the way! Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Stellardrone https://stellardrone.bandcamp.com/track/maia-nebula Used under Creative Commons 3</media:description>
+<media:community>
+<media:starRating count="880" average="4.89" min="1" max="5"/>
+<media:statistics views="17268"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:A6yzUqR8GA4</id>
+<yt:videoId>A6yzUqR8GA4</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Comet Rising: NeoWise seen from the ISS</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=A6yzUqR8GA4"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-07-09T17:30:10+00:00</published>
+<updated>2020-08-23T23:07:44+00:00</updated>
+<media:group>
+<media:title>Comet Rising: NeoWise seen from the ISS</media:title>
+<media:content url="https://www.youtube.com/v/A6yzUqR8GA4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/A6yzUqR8GA4/hqdefault.jpg" width="480" height="360"/>
+<media:description>This video starts over Saudia Arabia - we follow the journey of the space station across Iraq, Iran, Turkmenistan, Uzbekistan ending in Kazakhstan where just before sunrise we see Comet Neowise rising over the horizon Neowise is 103 Million KM from Earth Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Stelladrone Ocean of Galaxies https://stellardrone.bandcamp.com/track/an-ocean-of-galaxies - Creative Commons 3.0</media:description>
+<media:community>
+<media:starRating count="8852" average="4.89" min="1" max="5"/>
+<media:statistics views="396358"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:d8B4nwhhOtw</id>
+<yt:videoId>d8B4nwhhOtw</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Starry Night - Seen From Space</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=d8B4nwhhOtw"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-06-05T09:23:22+00:00</published>
+<updated>2020-08-23T23:07:44+00:00</updated>
+<media:group>
+<media:title>Starry Night - Seen From Space</media:title>
+<media:content url="https://www.youtube.com/v/d8B4nwhhOtw?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/d8B4nwhhOtw/hqdefault.jpg" width="480" height="360"/>
+<media:description>A million points of light shining across the galaxy seen here from the ISS Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Stellardrone https://stellardrone.bandcamp.com/album/invent-the-universe</media:description>
+<media:community>
+<media:starRating count="1123" average="4.89" min="1" max="5"/>
+<media:statistics views="20013"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:EbSxZ0WnS2I</id>
+<yt:videoId>EbSxZ0WnS2I</yt:videoId>
+<yt:channelId>UCakgsb0w7QB0VHdnCc-OVEA</yt:channelId>
+<title>Night Time: Earth From Space - Spectacular Views of Tunisia , Italy and Albania</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=EbSxZ0WnS2I"/>
+<author>
+<name>Space Videos</name>
+<uri>https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA</uri>
+</author>
+<published>2020-06-04T11:16:07+00:00</published>
+<updated>2020-08-23T23:07:45+00:00</updated>
+<media:group>
+<media:title>Night Time: Earth From Space - Spectacular Views of Tunisia , Italy and Albania</media:title>
+<media:content url="https://www.youtube.com/v/EbSxZ0WnS2I?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/EbSxZ0WnS2I/hqdefault.jpg" width="480" height="360"/>
+<media:description>Created from hundreds of photos taken by astronauts aboard the ISS - this night time journey starts in Tunisia, takes us over the Mediterranian Sea, over Sicily and Italy and onto Albania Thanks for watching - why not support this channel and help us grow. https://www.youtube.com/channel/UCakgsb0w7QB0VHdnCc-OVEA/join Subscribe For More Videos Like This: http://www.youtube.com/user/ouramazingspace?sub_confirmation=1 See my latest videos : https://www.youtube.com/user/ouramazingspace/videos Bringing you the BEST Space and Astronomy videos online. Showcasing videos and images from the likes of NASA,ESA,Hubble etc. Join me on Facebook: https://www.facebook.com/spaceisamazing Twitter: https://twitter.com/AmazingSpace2 Google+ : http://goo.gl/1WCBn9 Music by Keving Macleod http://incompetech.com/music/royalty-free/</media:description>
+<media:community>
+<media:starRating count="777" average="4.93" min="1" max="5"/>
+<media:statistics views="19397"/>
+</media:community>
+</media:group>
+</entry>
+</feed>

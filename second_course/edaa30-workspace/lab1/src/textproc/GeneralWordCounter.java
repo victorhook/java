@@ -10,7 +10,6 @@ public class GeneralWordCounter implements TextProcessor {
     public GeneralWordCounter(Set<String> stopWords) {
         this.stopWords = stopWords;
         this.wordCount = new HashMap<>();
-        //this.wordCount = new TreeMap<>();
     }
 
     @Override
@@ -24,26 +23,17 @@ public class GeneralWordCounter implements TextProcessor {
 
     @Override
     public void report() {
-/*        for (String word: wordCount.keySet()) {
-            int count = wordCount.get(word);
-            if (count >= 200) {
-                System.out.println(String.format("%s: %s", word, count));
-            }
-        }*/
-        Set<Map.Entry<String, Integer>> wordSet = wordCount.entrySet();
+/*        Set<Map.Entry<String, Integer>> wordSet = wordCount.entrySet();
         List<Map.Entry<String, Integer>> wordList = new ArrayList<>(wordSet);
-        wordList.sort(new Comparator<>() {
-            @Override
-            public int compare(Map.Entry<String, Integer> first, Map.Entry<String, Integer> second) {
-                int count1 = first.getValue(), count2 = second.getValue();
+        wordList.sort((o1, o2) -> {
+                int count1 = o1.getValue(), count2 = o2.getValue();
                 if (count1 < count2) {
                     return -1;
                 } else if (count1 > count2) {
                     return 1;
                 } else {
-                    return first.getKey().compareTo(second.getKey());
+                    return o1.getKey().compareTo(o2.getKey());
                 }
-            }
         });
 
         int totalWords = wordList.size() - 1;
@@ -52,7 +42,14 @@ public class GeneralWordCounter implements TextProcessor {
         for (int i = totalWords; i > stop; i--) {
             System.out.println(wordList.get(i));
         }
+        System.out.println("");*/
+
+        System.out.println("GeneralWordCounter");
+        wordCount.keySet()
+                 .stream()
+                 .sorted(Comparator.comparingInt((String o) -> wordCount.get(o)).thenComparing(o -> o).reversed())
+                 .limit(5)
+                 .forEach(key -> System.out.printf("%s: %s\n", key, wordCount.get(key)));
         System.out.println("");
     }
-
 }

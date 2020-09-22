@@ -19,7 +19,7 @@ public class SessionController {
         tabContents = buildTabUi();
         tabContentList = new TabContentList(tabContents);
         tabContents.forEach(tab -> tab.setComboBox(tabContentList));
-        tabFrame.setContent(tabContents.get(0));
+        tabFrame.setContent(tabContents.get(1));
         tabPane.getTabs().add(tabFrame);
     }
 

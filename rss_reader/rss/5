@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<?xml-stylesheet href="/css/rss.xsl" type="text/xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<!-- If you're seeing this, you've clicked on a link for ESA's RSS feeds.
+This file is not meant to be read by a Web browser directly.
+Instead you're meant to copy the URL for the file, and paste it into your favorite RSS reader. -->
+<channel>
+
+<category>space</category>
+<language>en-GB</language>
+<ttl>600</ttl>
+<copyright>Copyright European Space Agency</copyright>
+<managingEditor>rss@esa.int (ESA rss manager)</managingEditor>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<title>ESA Top News</title>
+<description>ESA Top News</description>
+<link>https://www.esa.int/</link>
+<atom:link href="https://www.esa.int/rssfeed/TopNews" rel="self" type="application/rss+xml" />
+	<pubDate>Thu, 09 Apr 2020 18:13:00 +0200</pubDate>
+<lastBuildDate>Thu, 09 Apr 2020 18:13:00 +0200</lastBuildDate>
+<docs>http://blogs.law.harvard.edu/tech/rss</docs>
+<item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<title>Information for all visitors to ESA sites</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/04/information_for_all_visitors_to_esa_sites/21932843-1-eng-GB/Information_for_all_visitors_to_ESA_sites_card_full.jpg" alt="">
+	<p>Information for all visitors to ESA sites</p>
+	<p>Coronavirus measures for hosted meetings and visitors</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/About_Us/Corporate_news/Information_for_all_visitors_to_ESA_sites_coronavirus_measures_for_hosted_meetings_and_visitors]]></link>
+
+<guid isPermaLink="false">6e48719d46b1119e5fcd156d495028ab</guid>
+<pubDate>Thu, 09 Apr 2020 18:13:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+<title>US West Coast on fire</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/between_fire_and_hurricane/22215770-1-eng-GB/Between_fire_and_hurricane_card_full.jpg" alt="Between fire and hurricane">
+	<p>Over the past month, dozens of wildfires have burned vast swathes of land in California, Oregon and Washington State, killing more than 30 people and smothering the majority of the western United States in smoke. While photographs have circulated online showing the apocalyptic orange skies, satellites in orbit around Earth carry different instruments that can provide not only images, but a wealth of complementary information needed to monitor the blazes.</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/Applications/Observing_the_Earth/Copernicus/US_West_Coast_on_fire]]></link>
+
+<guid isPermaLink="false">7203b264dc02736f9340835e3dc5af1a</guid>
+<pubDate>Fri, 18 Sep 2020 18:05:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>A new view of Enceladus</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/a_new_view_of_enceladus/22213489-1-eng-GB/A_new_view_of_Enceladus_card_full.jpg" alt="A new view of Enceladus">
+	Image:
+			A new view of Enceladus
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Images/2020/09/A_new_view_of_Enceladus]]></link>
+
+<guid isPermaLink="false">ed84a44955ea524f6a8b75692b763e92</guid>
+<pubDate>Fri, 18 Sep 2020 18:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+<title>Air pollution in a post-COVID-19 world</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/nitrogen_dioxide_concentrations_over_europe/22209551-1-eng-GB/Nitrogen_dioxide_concentrations_over_Europe_card_full.jpg" alt="Nitrogen dioxide concentrations over Europe">
+	<p>Air pollution is one of the biggest environmental problems of our time. According to a new report from the European Environment Agency (EEA), air pollution now contributes to&nbsp;<a href="https://www.eea.europa.eu/highlights/tackling-pollution-and-climate-change" target="_blank">one in eight</a> deaths in Europe. Observations from the Copernicus Sentinel-5P satellite have been vital in tracking the evolution of air pollution, specifically nitrogen dioxide concentrations, across Europe.</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-5P/Air_pollution_in_a_post-COVID-19_world]]></link>
+
+<guid isPermaLink="false">87d68d599181754045b8c5f390ee8ba7</guid>
+<pubDate>Fri, 18 Sep 2020 12:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>Vatnajökull, Iceland</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/vatnajoekull_iceland/22212272-1-eng-GB/Vatnajoekull_Iceland_card_full.jpg" alt="The Copernicus Sentinel-2 mission takes us over the Vatnajökull ice cap, in southeast Iceland.">
+	Image:
+			The Copernicus Sentinel-2 mission takes us over the Vatnajökull ice cap, in southeast Iceland.
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Images/2020/09/Vatnajoekull_Iceland]]></link>
+
+<guid isPermaLink="false">7c9b8b81d28073c83230aab3101153c7</guid>
+<pubDate>Fri, 18 Sep 2020 10:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>Earth from Space: Vatnajökull</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/videos/2020/09/earth_from_space_vatnajoekull/22203553-3-eng-GB/Earth_from_Space_Vatnajoekull_card_full.jpg" alt="">
+	Video:
+			00:03:04
+				<p>In this week's edition of the Earth from Space programme, the <a href="https://www.esa.int/Applications/Observing_the_Earth/Copernicus/Sentinel-2" target="_blank">Copernicus Sentinel-2</a> mission takes us over the Vatnajökull ice cap, in southeast Iceland.</p><p>See also <a href="https://www.esa.int/ESA_Multimedia/Images/2020/09/Vatnajoekull_Iceland" target="_blank">Vatnajökull, Iceland</a> to download the image.</p>
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Videos/2020/09/Earth_from_Space_Vatnajoekull]]></link>
+
+<guid isPermaLink="false">066a6fe5bb25190da0072ba3522eafca</guid>
+<pubDate>Fri, 18 Sep 2020 10:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+<title>ESA brings space industry together online</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/industry_space_days_2020/22212614-1-eng-GB/Industry_Space_Days_2020_card_full.jpg" alt="Online Industry Space Days on 16–17 September 2020">
+	<p>Europe’s space community came together through two days of virtual presentations and business-to-business meetings during ESA’s online Industry Space Days on 16–17 September.</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/About_Us/Business_with_ESA/Small_and_Medium_Sized_Enterprises/ESA_brings_space_industry_together_online]]></link>
+
+<guid isPermaLink="false">9f3d8ed791a6255c9914f2d0b11a5ca4</guid>
+<pubDate>Fri, 18 Sep 2020 09:30:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>Medicane Ianos</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/medicane_ianos/22213448-1-eng-GB/Medicane_Ianos_card_full.jpg" alt="Copernicus Sentinel-3 captured this image of the Mediterranean hurricane, or ‘Medicane,’ crossing the Ionian Sea and approaching Greece yesterday 17 September.">
+	Image:
+			Copernicus Sentinel-3 captured this image of the Mediterranean hurricane, or ‘Medicane,’ crossing the Ionian Sea and approaching Greece yesterday 17 September.
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Images/2020/09/Medicane_Ianos]]></link>
+
+<guid isPermaLink="false">756cf35d21af2d03bfbfb76bff148b6c</guid>
+<pubDate>Fri, 18 Sep 2020 09:10:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>Mesh reflector for shaped radio beams</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/mesh_reflector_for_shaped_radio_beams/22210554-1-eng-GB/Mesh_reflector_for_shaped_radio_beams_card_full.jpg" alt="Mesh reflector for shaped radio beams">
+	Image:
+			Mesh reflector for shaped radio beams
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Images/2020/09/Mesh_reflector_for_shaped_radio_beams]]></link>
+
+<guid isPermaLink="false">de3761eba10c42bee13d69375575b3b8</guid>
+<pubDate>Thu, 17 Sep 2020 08:35:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+<title>Providing the facts to help Europe achieve 55%</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/07/industrial_emissions_of_carbon_dioxide_fuel_our_warming_climate/22159848-1-eng-GB/Industrial_emissions_of_carbon_dioxide_fuel_our_warming_climate_card_full.jpg" alt="Industrial emissions of carbon dioxide fuel our warming climate">
+	<p>Today, at her State of the Union address before the European Parliament, Ursula von der Leyen, President of the European Commission, proposed a new target of a 55% cut in greenhouse gas emissions by 2030, compared to 1990 levels. The current target is a 40% reduction. With such ambitious goals ahead for Europe, understanding how greenhouse gases end up in the atmosphere and the intricacies of the carbon cycle is essential – something that satellites observing Earth can help provide.</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/Applications/Observing_the_Earth/Space_for_our_climate/Providing_the_facts_to_help_Europe_achieve_55]]></link>
+
+<guid isPermaLink="false">d2e648d2f7cf2db2e7409f6082989322</guid>
+<pubDate>Wed, 16 Sep 2020 14:48:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+<title>New ESA podcast explores history of spaceflight in Europe</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2011/10/de_winne_and_remek_during_estec_visit_on_october_11_2011/9759780-3-eng-GB/De_Winne_and_Remek_during_ESTEC_visit_on_October_11_2011_card_full.jpg" alt="De Winne and Remek during ESTEC visit on October 11, 2011">
+	<p>Join astronauts and experts for an aural journey through the history of European spaceflight in the latest series of ESA podcast, <a href="https://pod.link/1463873320">ESA Explores Time and Space</a>.&nbsp;</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/New_ESA_podcast_explores_history_of_spaceflight_in_Europe]]></link>
+
+<guid isPermaLink="false">1fa781c67a2f764bd3c835da5bfcba5a</guid>
+<pubDate>Wed, 16 Sep 2020 11:20:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+<title>Industry starts work on Europe’s Hera planetary defence mission</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2015/06/hera_uses_infrared_to_scan_impact_crater/15477480-7-eng-GB/Hera_uses_infrared_to_scan_impact_crater_card_full.jpg" alt="Infrared imaging of the impact crater">
+	<p>Today ESA awarded a&nbsp;€129.4 million&nbsp;contract covering the detailed design, manufacturing and testing of Hera, the Agency’s first mission for planetary defence. This ambitious mission will be Europe’s contribution to an international asteroid deflection effort, set to perform sustained exploration of a double asteroid system.</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/Safety_Security/Hera/Industry_starts_work_on_Europe_s_Hera_planetary_defence_mission]]></link>
+
+<guid isPermaLink="false">32576d149a3ec52c9e06f17e8740d88b</guid>
+<pubDate>Tue, 15 Sep 2020 15:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>Back to school with Thomas Pesquet</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/videos/2020/09/back_to_school_with_thomas_pesquet/22201241-2-eng-GB/Back_to_school_with_Thomas_Pesquet_card_full.png" alt="">
+	Video:
+			00:03:32
+				<p>It's that time of year again: everyone is back to school! Like many, ESA astronaut Thomas Pesquet is also studying, for his next mission to the International Space Station. Join Thomas in learning about Earth and space by participating in ESA Education's&nbsp;2020-21 school projects.</p><p><a href="https://www.esa.int/schoolprojects" target="_blank">More info</a></p>
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Videos/2020/09/Back_to_school_with_Thomas_Pesquet]]></link>
+
+<guid isPermaLink="false">a2e3f666da0f58fa9e2adcead33f9e40</guid>
+<pubDate>Mon, 14 Sep 2020 11:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+<title>Meet the Experts: Designing a space mission</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/videos/2020/09/meet_the_experts_designing_a_space_mission/22200723-1-eng-GB/Meet_the_Experts_Designing_a_space_mission_card_full.jpg" alt="">
+	Video:
+			00:06:25
+				<p>Space missions are complex and require input from many specialists. The Concurrent Design Facility (CDF) is where most of ESA missions are conceived and conceptually designed. In this episode of Meet the Experts, Massimo Bandecchi, the founding father of ESA's CDF, explains Concurrent Design (CD) and some of the missions studied using this methodology.</p><p><a href="https://www.esa.int/Education/Expedition_Home/12_-_18_years_old" target="_blank">Find more episodes in the series</a></p>
+	]]></description>
+<link><![CDATA[https://www.esa.int/ESA_Multimedia/Videos/2020/09/Meet_the_Experts_Designing_a_space_mission]]></link>
+
+<guid isPermaLink="false">19162a3f5fba0ed30d0696f1494d7fbb</guid>
+<pubDate>Fri, 11 Sep 2020 16:00:00 +0200</pubDate>
+	</item><item>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<title>Week in images: 07-11 September 2020</title>
+<description><![CDATA[
+	<img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2020/09/west_coast_wildfires/22200473-1-eng-GB/West_coast_wildfires_card_full.jpg" alt="Captured on 10 September 2020, this Copernicus Sentinel-3 image shows thick smoke blanketing the US west coast.">
+	<p>Week in images: 07-11 September 2020</p>
+	<p>Discover our week through the lens</p>
+]]></description>
+<link><![CDATA[https://www.esa.int/About_Us/Week_in_images/Week_in_images_07-11_September_2020]]></link>
+
+<guid isPermaLink="false">27027e5428cb2e9f59b6e4e5f90a421e</guid>
+<pubDate>Fri, 11 Sep 2020 15:20:00 +0200</pubDate>
+	</item>
+
+
+
+
+</channel>
+</rss>

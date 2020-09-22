@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 public class GraphApplication extends Application {
 
 
-    public static final int PREF_WIDTH = 1300, PREF_HEIGHT = 800;
+    public static final int PREF_WIDTH = 1300, PREF_HEIGHT = 900;
 
     @Override
     public void start(Stage stage) throws Exception {

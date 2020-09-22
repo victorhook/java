@@ -1,0 +1,337 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<feed xmlns:yt="http://www.youtube.com/xml/schemas/2015" xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom">
+<script/>
+<script>(function (toContentScriptEventName, fromContentScriptEventName) { if (XMLHttpRequest.wrapped === true) { return; } // used to decode all encoded HTML (convert '&' to &amp;) const parseElem = document.createElement('textarea'); const parseChannelName = function (channelNameToParse) { function fixedEncodeURIComponent(str) { return encodeURIComponent(str).replace(/[!'()*]/g, c => `%${c.charCodeAt(0).toString(16)}`); } parseElem.innerHTML = DOMPurify.sanitize(channelNameToParse); const channelName = parseElem.innerText; // Remove whitespace, and encode return fixedEncodeURIComponent(channelName.replace(/\s/g, '')); }; // Parse a URL. Based upon http://blog.stevenlevithan.com/archives/parseuri // parseUri 1.2.2, (c) Steven Levithan <stevenlevithan.com>, MIT License // Inputs: url: the URL you want to parse // Outputs: object containing all parts of |url| as attributes const parseUriRegEx = /^(([^:]+(?::|$))(?:(?:\w+:)?\/\/)?(?:[^:@/]*(?::[^:@/]*)?@)?(([^:/?#]*)(?::(\d*))?))((?:[^?#/]*\/)*[^?#]*)(\?[^#]*)?(#.*)?/; const parseUri = function (theURL) { const matches = parseUriRegEx.exec(theURL); // The key values are identical to the JS location object values for that key const keys = ['href', 'origin', 'protocol', 'host', 'hostname', 'port', 'pathname', 'search', 'hash']; const uri = {}; for (let i = 0; (matches && i < keys.length); i++) { uri[keys[i]] = matches[i] || ''; } return uri; }; // Parses the search part of a URL into a key: value object. // e.g., ?hello=world&ext=adblock would become {hello:"world", ext:"adblock"} // Inputs: search: the search query of a URL. Must have &-separated values. parseUri.parseSearch = function parseSearch(searchQuery) { const params = {}; let search = searchQuery; let pair; // Fails if a key exists twice (e.g., ?a=foo&a=bar would return {a:"bar"} search = search.substring(search.indexOf('?') + 1).split('&'); for (let i = 0; i < search.length; i++) { pair = search[i].split('='); if (pair[0] && !pair[1]) { pair[1] = ''; } const pairKey = decodeURIComponent(pair[0]); const pairValue = decodeURIComponent(pair[1]); if (pairKey && pairValue !== 'undefined') { params[pairKey] = pairValue; } } return params; }; // Strip third+ level domain names from the domain and return the result. // Inputs: domain: the domain that should be parsed // keepDot: true if trailing dots should be preserved in the domain // Returns: the parsed domain parseUri.secondLevelDomainOnly = function stripThirdPlusLevelDomain(domain, keepDot) { if (domain) { const match = domain.match(/([^.]+\.(?:co\.)?[^.]+)\.?$/) || [domain, domain]; return match[keepDot ? 0 : 1].toLowerCase(); } return domain; }; function updateURLWrapped(channelName) { if (channelName) { const parsedChannelName = parseChannelName(channelName); let updatedUrl; let [baseUrl] = window.location.href.split('&ab_channel'); [baseUrl] = baseUrl.split('?ab_channel'); if (parseUri(window.location.href).search.indexOf('?') === -1) { updatedUrl = `${baseUrl}?&ab_channel=${parsedChannelName}`; } else { updatedUrl = `${baseUrl}&ab_channel=${parsedChannelName}`; } // Add the name of the channel to the end of URL window.history.replaceState(null, null, updatedUrl); } } let ytInitialPlayerResponseWrapped; const ytDescriptor = { configurable: true, get() { return ytInitialPlayerResponseWrapped; }, set(newValue) { // eslint-disable-next-line no-console ytInitialPlayerResponseWrapped = newValue; if ( ytInitialPlayerResponseWrapped && ytInitialPlayerResponseWrapped.videoDetails && ytInitialPlayerResponseWrapped.videoDetails.author ) { const { author, videoId } = ytInitialPlayerResponseWrapped.videoDetails; updateURLWrapped(author); document.dispatchEvent(new CustomEvent(toContentScriptEventName, { detail: { channelName: author, videoId } })); } }, }; Object.defineProperty(window, 'ytInitialPlayerResponse', ytDescriptor); const theObjectDefineProperty = Object.defineProperty; Object.defineProperty = function defineProperties(obj, prop, descriptor) { // Prevent YT specific snippets from clobbering our overriding if (prop === 'ytInitialPlayerResponse') { return; } theObjectDefineProperty(obj, prop, descriptor); }; const XHR = XMLHttpRequest.prototype; XMLHttpRequest.wrapped = true; const mySend = XHR.send; const myOpen = XHR.open; XHR.open = function theOpen(...args) { if (args.length > 1) { [, this.url] = args; } else { this.url = ''; } return myOpen.apply(this, args); }; XHR.send = function theSend(...args) { if (this.url.includes('https://www.youtube.com/watch?v=')) { this.addEventListener('load', function eventHandler() { try { const responseArray = JSON.parse(this.response); if (responseArray) { for (const item in responseArray) { if ( responseArray[item] && responseArray[item].playerResponse && responseArray[item].playerResponse.videoDetails && responseArray[item].playerResponse.videoDetails.author ) { const { author, videoId } = responseArray[item].playerResponse.videoDetails; updateURLWrapped(author); document.dispatchEvent(new CustomEvent(toContentScriptEventName, { detail: { channelName: author, videoId } })); return; } } } } catch (ex) { // eslint-disable-next-line no-console console.log('ex', ex); } }); } return mySend.apply(this, args); }; // process the event messages from the content script document.addEventListener(fromContentScriptEventName, (event) => { if (event && event.detail && event.detail.channelName) { updateURLWrapped(event.detail.channelName); } if (event && event.detail && event.detail.removeChannelName) { // remove the query string from the URL const params = parseUri.parseSearch(window.location.search); const queryString = Object.keys(params).reduce((prev, key, i) => { if (key !== 'ab_channel') { return `${prev}${i !== 0 ? '&' : ''}${key}=${params[key]}`; } return prev; }, ''); window.history.replaceState(null, null, `${window.location.origin}${window.location.pathname}?${queryString}`); } }); })('ab-yt-channel-name-2gyi1zgzozk', 'yt-ab-channel-name-4im8xrh0uop');</script>
+<link rel="self" href="http://www.youtube.com/feeds/videos.xml?user=spacexchannel"/>
+<id>yt:channel:UCtI0Hodo5o5dUb67FeUjDeA</id>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>SpaceX</title>
+<link rel="alternate" href="https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2008-07-30T21:48:45+00:00</published>
+<entry>
+<id>yt:video:lXgLyCYuYA4</id>
+<yt:videoId>lXgLyCYuYA4</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>SAOCOM 1B | Launch and Landing</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=lXgLyCYuYA4"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-09-09T14:53:50+00:00</published>
+<updated>2020-09-12T10:28:22+00:00</updated>
+<media:group>
+<media:title>SAOCOM 1B | Launch and Landing</media:title>
+<media:content url="https://www.youtube.com/v/lXgLyCYuYA4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/lXgLyCYuYA4/hqdefault.jpg" width="480" height="360"/>
+<media:description>Sped up footage from an onboard camera during Falcon 9’s launch of the SAOCOM 1B mission – SpaceX’s first launch to a polar orbit from the East Coast. After launching from Space Launch Complex 40 at Cape Canaveral Air Force Station, Falcon 9’s first stage returned to land at Landing Zone 1.</media:description>
+<media:community>
+<media:starRating count="67944" average="4.98" min="1" max="5"/>
+<media:statistics views="1105490"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:MdAKrzOLQTg</id>
+<yt:videoId>MdAKrzOLQTg</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Starship SN6 150m Flight Test</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=MdAKrzOLQTg"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-09-04T15:27:24+00:00</published>
+<updated>2020-09-06T03:26:21+00:00</updated>
+<media:group>
+<media:title>Starship SN6 150m Flight Test</media:title>
+<media:content url="https://www.youtube.com/v/MdAKrzOLQTg?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i2.ytimg.com/vi/MdAKrzOLQTg/hqdefault.jpg" width="480" height="360"/>
+<media:description/>
+<media:community>
+<media:starRating count="72181" average="4.96" min="1" max="5"/>
+<media:statistics views="1936053"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:_j4xR7LMCGY</id>
+<yt:videoId>_j4xR7LMCGY</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Starlink Mission</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=_j4xR7LMCGY"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-09-03T13:06:56+00:00</published>
+<updated>2020-09-05T05:34:01+00:00</updated>
+<media:group>
+<media:title>Starlink Mission</media:title>
+<media:content url="https://www.youtube.com/v/_j4xR7LMCGY?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i4.ytimg.com/vi/_j4xR7LMCGY/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX is targeting Thursday, September 3 at 8:46 a.m. EDT, 12:46 UTC, for launch of its twelfth Starlink mission, which will launch 60 Starlink satellites to orbit. Falcon 9 will lift off from Launch Complex 39A (LC-39A) at Kennedy Space Center in Florida. A backup opportunity is available on Friday, September 4 at 8:24 a.m. EDT, 12:24 UTC. Falcon 9’s first stage previously supported launch of the GPS III Space Vehicle 03 mission in June 2020. Following stage separation, SpaceX will land Falcon 9’s first stage on the “Of Course I Still Love You” droneship, which will be stationed in the Atlantic Ocean.</media:description>
+<media:community>
+<media:starRating count="45067" average="4.93" min="1" max="5"/>
+<media:statistics views="1164143"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:P-gLOsDjE3E</id>
+<yt:videoId>P-gLOsDjE3E</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>SAOCOM 1B Mission</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=P-gLOsDjE3E"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-31T00:29:10+00:00</published>
+<updated>2020-09-01T02:12:02+00:00</updated>
+<media:group>
+<media:title>SAOCOM 1B Mission</media:title>
+<media:content url="https://www.youtube.com/v/P-gLOsDjE3E?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/P-gLOsDjE3E/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX is targeting Sunday, August 30 at 7:18 p.m. EDT, or 23:18 UTC, for Falcon 9’s launch of the SAOCOM 1B mission, which will carry the SAOCOM 1B spacecraft to orbit in addition to two rideshare payloads, Tyvak-0172 and PlanetiQ’s GNOMES-1. The mission will lift off from Space Launch Complex 40 (SLC-40) at Cape Canaveral Air Force Station in Florida. A backup launch opportunity is available on Monday, August 31 at 7:19 p.m. EDT, or 23:19 UTC. This mission marks SpaceX’s first launch to a polar orbit from the East Coast, and the first polar launch from Florida in decades. Falcon 9’s first stage previously launched Dragon to the International Space Station for SpaceX’s 19th and 20th commercial resupply missions, and it also supported launch of SpaceX’s ninth Starlink mission. Following stage separation, SpaceX will land Falcon 9 on Landing Zone 1 at Cape Canaveral Air Force Station. SAOCOM 1B will deploy approximately 14 minutes after launch, GNOMES-1 and Tyvak-0172 will deploy approximately 61 and 62 minutes after liftoff.</media:description>
+<media:community>
+<media:starRating count="49765" average="4.93" min="1" max="5"/>
+<media:statistics views="1605915"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:oTH3mq7SsK4</id>
+<yt:videoId>oTH3mq7SsK4</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Ms. Tree Catches a Fairing Half</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=oTH3mq7SsK4"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-19T20:44:39+00:00</published>
+<updated>2020-08-22T07:13:14+00:00</updated>
+<media:group>
+<media:title>Ms. Tree Catches a Fairing Half</media:title>
+<media:content url="https://www.youtube.com/v/oTH3mq7SsK4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i4.ytimg.com/vi/oTH3mq7SsK4/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX’s fairing recovery vessel Ms. Tree catches a Falcon 9 fairing half after launch of SpaceX’s eleventh Starlink mission on August 18, 2020. The fairing used on this mission previously flew in support of SpaceX’s fourth Starlink mission.</media:description>
+<media:community>
+<media:starRating count="47144" average="4.96" min="1" max="5"/>
+<media:statistics views="1020024"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:jTMJK7wb0rM</id>
+<yt:videoId>jTMJK7wb0rM</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Starlink Mission</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=jTMJK7wb0rM"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-18T16:07:55+00:00</published>
+<updated>2020-08-20T01:50:01+00:00</updated>
+<media:group>
+<media:title>Starlink Mission</media:title>
+<media:content url="https://www.youtube.com/v/jTMJK7wb0rM?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i3.ytimg.com/vi/jTMJK7wb0rM/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX is targeting Tuesday, August 18 at 10:31 a.m. EDT for launch of its eleventh Starlink mission, which will include 58 Starlink satellites and three of Planet’s SkySats. Falcon 9 will lift off from Space Launch Complex 40 (SLC-40) at Cape Canaveral Air Force Station in Florida. Falcon 9’s first stage previously supported the Telstar 18 VANTAGE mission in September 2018, the Iridium-8 mission in January 2019, and three separate Starlink missions in May 2019, January 2020, and June 2020. Following stage separation, SpaceX will land Falcon 9’s first stage on the “Of Course I Still Love You” droneship, which will be stationed in the Atlantic Ocean. Falcon 9’s fairing previously flew on the fourth launch of Starlink. Planet’s SkySats will deploy sequentially beginning about 12 and a half minutes after liftoff, and the Starlink satellites will deploy approximately 26 minutes after liftoff.</media:description>
+<media:community>
+<media:starRating count="53738" average="4.93" min="1" max="5"/>
+<media:statistics views="1503165"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:KU6KogxG5BE</id>
+<yt:videoId>KU6KogxG5BE</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Starlink Mission</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=KU6KogxG5BE"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-07T06:53:08+00:00</published>
+<updated>2020-08-08T02:15:09+00:00</updated>
+<media:group>
+<media:title>Starlink Mission</media:title>
+<media:content url="https://www.youtube.com/v/KU6KogxG5BE?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i4.ytimg.com/vi/KU6KogxG5BE/hqdefault.jpg" width="480" height="360"/>
+<media:description>On Friday, August 7 at 1:12 a.m. EDT, 5:12 UTC, SpaceX launched its tenth Starlink mission, which included 57 Starlink satellites and 2 satellites from BlackSky, a Spaceflight customer. Falcon 9 lifted off from Launch Complex 39A (LC-39A) at Kennedy Space Center in Florida. Following stage separation, Falcon 9’s first stage landed on the “Of Course I Still Love You” droneship. The BlackSky Global spacecraft were deployed about an hour after liftoff, and the Starlink satellites deployed approximately 90 minutes after liftoff.</media:description>
+<media:community>
+<media:starRating count="50347" average="4.95" min="1" max="5"/>
+<media:statistics views="1026178"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:s1HA9LlFNM0</id>
+<yt:videoId>s1HA9LlFNM0</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Starship SN5 150m Flight Test</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=s1HA9LlFNM0"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-05T03:38:22+00:00</published>
+<updated>2020-09-04T15:28:36+00:00</updated>
+<media:group>
+<media:title>Starship SN5 150m Flight Test</media:title>
+<media:content url="https://www.youtube.com/v/s1HA9LlFNM0?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i4.ytimg.com/vi/s1HA9LlFNM0/hqdefault.jpg" width="480" height="360"/>
+<media:description/>
+<media:community>
+<media:starRating count="181422" average="4.95" min="1" max="5"/>
+<media:statistics views="6233555"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:tSJIQftoxeU</id>
+<yt:videoId>tSJIQftoxeU</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Crew Demo-2 Splashdown</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=tSJIQftoxeU"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-02T20:46:26+00:00</published>
+<updated>2020-09-01T23:07:42+00:00</updated>
+<media:group>
+<media:title>Crew Demo-2 Splashdown</media:title>
+<media:content url="https://www.youtube.com/v/tSJIQftoxeU?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/tSJIQftoxeU/hqdefault.jpg" width="480" height="360"/>
+<media:description>Crew Demo-2 Departure - https://youtu.be/sl2jo1bSxl8 Crew Demo-2 Return Coast Phase - https://youtu.be/zMsxviPT2Cw Crew Demo-2 Splashdown - Watching Now On Saturday, May 30, SpaceX’s Falcon 9 launched Crew Dragon’s second demonstration (Demo-2) mission from Launch Complex 39A (LC-39A) at NASA’s Kennedy Space Center in Florida, and the next day Crew Dragon autonomously docked to the International Space Station. This test flight with NASA astronauts Bob Behnken and Doug Hurley aboard the Dragon spacecraft returned human spaceflight to the United States. SpaceX and NASA are now targeting 7:34 p.m. EDT on Saturday, August 1 for Crew Dragon to autonomously undock from the Space Station, with the two astronauts aboard the spacecraft, and return to Earth. Approximately 19 hours later, after jettisoning its trunk and re-entering Earth’s atmosphere, Dragon will splash down at one of seven targeted water landing sites off the coast of Florida at 2:42 p.m. EDT on Sunday, August 2. The Demo-2 mission is the final major milestone for SpaceX’s human spaceflight system to be certified by NASA for operational crew missions to and from the International Space Station. Once the Demo-2 mission is complete, and the SpaceX and NASA teams have reviewed all the data for certification, NASA astronauts Victor Glover, Mike Hopkins, Shannon Walker, and JAXA astronaut Soichi Noguchi will fly on Dragon’s first six-month operational mission (Crew-1) targeted for late September.</media:description>
+<media:community>
+<media:starRating count="116719" average="4.92" min="1" max="5"/>
+<media:statistics views="5785108"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:zMsxviPT2Cw</id>
+<yt:videoId>zMsxviPT2Cw</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Crew Demo-2 Return Coast Phase</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=zMsxviPT2Cw"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-02T20:28:12+00:00</published>
+<updated>2020-08-04T09:36:01+00:00</updated>
+<media:group>
+<media:title>Crew Demo-2 Return Coast Phase</media:title>
+<media:content url="https://www.youtube.com/v/zMsxviPT2Cw?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i3.ytimg.com/vi/zMsxviPT2Cw/hqdefault.jpg" width="480" height="360"/>
+<media:description>Crew Demo-2 Departure - https://youtu.be/sl2jo1bSxl8 Crew Demo-2 Return Coast Phase - Watching Now Crew Demo-2 Splashdown - https://youtu.be/tSJIQftoxeU On Saturday, May 30, SpaceX’s Falcon 9 launched Crew Dragon’s second demonstration (Demo-2) mission from Launch Complex 39A (LC-39A) at NASA’s Kennedy Space Center in Florida, and the next day Crew Dragon autonomously docked to the International Space Station. This test flight with NASA astronauts Bob Behnken and Doug Hurley aboard the Dragon spacecraft returned human spaceflight to the United States. SpaceX and NASA are now targeting 7:34 p.m. EDT on Saturday, August 1 for Crew Dragon to autonomously undock from the Space Station, with the two astronauts aboard the spacecraft, and return to Earth. Approximately 19 hours later, after jettisoning its trunk and re-entering Earth’s atmosphere, Dragon will splash down at one of seven targeted water landing sites off the coast of Florida at 2:42 p.m. EDT on Sunday, August 2. The Demo-2 mission is the final major milestone for SpaceX’s human spaceflight system to be certified by NASA for operational crew missions to and from the International Space Station. Once the Demo-2 mission is complete, and the SpaceX and NASA teams have reviewed all the data for certification, NASA astronauts Victor Glover, Mike Hopkins, Shannon Walker, and JAXA astronaut Soichi Noguchi will fly on Dragon’s first six-month operational mission (Crew-1) targeted for late September.</media:description>
+<media:community>
+<media:starRating count="53114" average="4.92" min="1" max="5"/>
+<media:statistics views="2494982"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:sl2jo1bSxl8</id>
+<yt:videoId>sl2jo1bSxl8</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Crew Demo-2 Departure</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=sl2jo1bSxl8"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-08-02T20:28:08+00:00</published>
+<updated>2020-08-03T02:16:23+00:00</updated>
+<media:group>
+<media:title>Crew Demo-2 Departure</media:title>
+<media:content url="https://www.youtube.com/v/sl2jo1bSxl8?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i4.ytimg.com/vi/sl2jo1bSxl8/hqdefault.jpg" width="480" height="360"/>
+<media:description>Crew Demo-2 Departure - Watching Now Crew Demo-2 Return Coast Phase - https://youtu.be/zMsxviPT2Cw  Crew Demo-2 Splashdown - https://youtu.be/tSJIQftoxeU On Saturday, May 30, SpaceX’s Falcon 9 launched Crew Dragon’s second demonstration (Demo-2) mission from Launch Complex 39A (LC-39A) at NASA’s Kennedy Space Center in Florida, and the next day Crew Dragon autonomously docked to the International Space Station. This test flight with NASA astronauts Bob Behnken and Doug Hurley aboard the Dragon spacecraft returned human spaceflight to the United States. SpaceX and NASA are now targeting 7:34 p.m. EDT on Saturday, August 1 for Crew Dragon to autonomously undock from the Space Station, with the two astronauts aboard the spacecraft, and return to Earth. Approximately 19 hours later, after jettisoning its trunk and re-entering Earth’s atmosphere, Dragon will splash down at one of seven targeted water landing sites off the coast of Florida at 2:42 p.m. EDT on Sunday, August 2. The Demo-2 mission is the final major milestone for SpaceX’s human spaceflight system to be certified by NASA for operational crew missions to and from the International Space Station. Once the Demo-2 mission is complete, and the SpaceX and NASA teams have reviewed all the data for certification, NASA astronauts Victor Glover, Mike Hopkins, Shannon Walker, and JAXA astronaut Soichi Noguchi will fly on Dragon’s first six-month operational mission (Crew-1) targeted for late September.</media:description>
+<media:community>
+<media:starRating count="57485" average="4.94" min="1" max="5"/>
+<media:statistics views="2106678"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:4LMwKwcMdIg</id>
+<yt:videoId>4LMwKwcMdIg</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>Inside the Space Suit Lab</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=4LMwKwcMdIg"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-07-27T22:17:11+00:00</published>
+<updated>2020-08-02T01:24:01+00:00</updated>
+<media:group>
+<media:title>Inside the Space Suit Lab</media:title>
+<media:content url="https://www.youtube.com/v/4LMwKwcMdIg?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/4LMwKwcMdIg/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX’s space suits are designed for optimum functionality with the Crew Dragon spacecraft.</media:description>
+<media:community>
+<media:starRating count="51307" average="4.95" min="1" max="5"/>
+<media:statistics views="997344"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:TshvZlQ7le8</id>
+<yt:videoId>TshvZlQ7le8</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>ANASIS-II Mission</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=TshvZlQ7le8"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-07-20T22:07:46+00:00</published>
+<updated>2020-07-29T07:43:22+00:00</updated>
+<media:group>
+<media:title>ANASIS-II Mission</media:title>
+<media:content url="https://www.youtube.com/v/TshvZlQ7le8?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i1.ytimg.com/vi/TshvZlQ7le8/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX is targeting Monday, July 20 for Falcon 9’s launch of the ANASIS-II mission, which will lift off from Space Launch Complex 40 (SLC-40) at Cape Canaveral Air Force Station in Florida. The primary launch window opens at 5:00 p.m. EDT, or 21:00 UTC, and closes at 8:55 p.m. EDT, or 00:55 UTC on July 21. A backup launch opportunity is available on Tuesday, July 21 that opens at 5:00 p.m. EDT, or 21:00 UTC, and closes at 8:55 p.m. EDT, or 00:55 UTC on July 22. Falcon 9’s first stage previously launched Crew Dragon to the International Space Station with NASA astronauts Bob Behnken and Doug Hurley on board. Following stage separation, SpaceX will land Falcon 9’s first stage on the “Just Read the Instructions” droneship, which will be stationed in the Atlantic Ocean. The ANASIS-II spacecraft will deploy about 32 minutes after liftoff.</media:description>
+<media:community>
+<media:starRating count="44301" average="4.95" min="1" max="5"/>
+<media:statistics views="1152098"/>
+</media:community>
+</media:group>
+</entry>
+<entry>
+<id>yt:video:6zr0nfG3Xy4</id>
+<yt:videoId>6zr0nfG3Xy4</yt:videoId>
+<yt:channelId>UCtI0Hodo5o5dUb67FeUjDeA</yt:channelId>
+<title>GPS III Space Vehicle 03 Mission</title>
+<link rel="alternate" href="https://www.youtube.com/watch?v=6zr0nfG3Xy4"/>
+<author>
+<name>SpaceX</name>
+<uri>https://www.youtube.com/channel/UCtI0Hodo5o5dUb67FeUjDeA</uri>
+</author>
+<published>2020-06-30T21:51:00+00:00</published>
+<updated>2020-07-02T01:44:40+00:00</updated>
+<media:group>
+<media:title>GPS III Space Vehicle 03 Mission</media:title>
+<media:content url="https://www.youtube.com/v/6zr0nfG3Xy4?version=3" type="application/x-shockwave-flash" width="640" height="390"/>
+<media:thumbnail url="https://i3.ytimg.com/vi/6zr0nfG3Xy4/hqdefault.jpg" width="480" height="360"/>
+<media:description>SpaceX is targeting Tuesday, June 30 at 4:10 p.m. EDT, 20:10 UTC, for a Falcon 9 launch of the GPS III Space Vehicle 03 mission from Space Launch Complex 40 (SLC-40) at Cape Canaveral Air Force Station in Florida. A backup opportunity is available on Wednesday, July 1 with a 15-minute launch window opening at 3:51 p.m. EDT, 19:51 UTC. Following stage separation, SpaceX will land Falcon 9’s first stage on the “Just Read the Instructions” droneship, which will be stationed in the Atlantic Ocean. The spacecraft will deploy approximately 1 hour and 29 minutes after liftoff.</media:description>
+<media:community>
+<media:starRating count="55773" average="4.94" min="1" max="5"/>
+<media:statistics views="1705764"/>
+</media:community>
+</media:group>
+</entry>
+</feed>

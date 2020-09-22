@@ -24,6 +24,7 @@ public class UiBinomial extends TabContent {
     private Label labelN, labelP;
     private Slider sliderN, sliderP;
     private BinomialDistribution distribution;
+    private final String IMAGE_NAME = "binomial_distribution.png";
 
     public UiBinomial(Function distroChangedCallback) {
         super(distroChangedCallback);
@@ -152,13 +153,10 @@ public class UiBinomial extends TabContent {
     @Override
     public void initLabels() {
         title = new Label("Binomial");
-        labelMeansVal = new Label("");
-        labelVarianceVal = new Label("");
-        labelNormDivVal = new Label("");
         labelMeansFormula = new Label(String.format("E(%s) = np", Utils.LETTER_XI));
         labelVarianceFormula = new Label(String.format("V(%s) = np(1-p)", Utils.LETTER_XI));
         labelNormDivFormula = new Label(String.format("%s = sqrt(np)", Utils.LETTER_SIGMA));
-        Image img = new Image("ui/images/binomial_distribution.png");
+        Image img = new Image(LOGO_PATH + IMAGE_NAME);
         ImageView view = new ImageView(img);
         view.setFitWidth(0xff);
         view.setPreserveRatio(true);

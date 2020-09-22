@@ -1,0 +1,1 @@
+{'language', 'uri', 'url', 'author', 'description', 'copyright', 'image', 'script', 'title', 'icon', 'name', 'webMaster', 'p', 'updated', 'ttl', 'category', 'pubDate', 'published', 'link', 'channel', 'id', 'generator', 'managingEditor', 'subtitle', 'item', 'lastBuildDate', 'entry', 'docs', 'guid', 'comments'}

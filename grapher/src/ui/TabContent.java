@@ -23,20 +23,19 @@ public abstract class TabContent extends VBox {
 
     protected final int STEPS_PER_AXIS = 10, OFFSET = 50, TEXT_OFFSET = 30,
                                POINT_SIZE = 10, POINT_RADIUS = POINT_SIZE / 2;
-    protected final double GRAPH_WIDTH = 500, GRAPH_HEIGHT = 500, PARAM_WIDTH = 700, PARAM_HEIGHT = 500;
+    protected final double GRAPH_WIDTH = 500, GRAPH_HEIGHT = 600, PARAM_WIDTH = 700, PARAM_HEIGHT = 600;
     protected double height, width;
     protected double lenX = GRAPH_WIDTH - 2 * OFFSET, lenY = GRAPH_HEIGHT - 2 * OFFSET;
     protected String symbolX, symbolY;
     protected String name;
     protected GraphicsContext gc;
 
-    private static final String LOGO_PATH = "ui/images/";
+    protected static final String LOGO_PATH = "ui/images/";
 
     protected ComboBox<String> distributionComboBox;
     protected Canvas canvas;
     protected GridPane params, stats;
-    protected Label labelMeansVal, labelVarianceVal, labelNormDivVal,
-                    labelMeansFormula, labelVarianceFormula, labelNormDivFormula,
+    protected Label labelMeansFormula, labelVarianceFormula, labelNormDivFormula,
                     labelFormula, title;
 
     Function callback;
@@ -135,12 +134,10 @@ public abstract class TabContent extends VBox {
         stats.add(new Label("Mean"), 0, 1);
         stats.add(new Label("Variance"), 0, 2);
         stats.add(new Label("Normal deviation"), 0, 3);
-        stats.add(labelMeansVal, 1, 1);
-        stats.add(labelVarianceVal, 1, 2);
-        stats.add(labelNormDivVal, 1, 3);
-        stats.add(labelMeansFormula, 2, 1);
-        stats.add(labelVarianceFormula, 2, 2);
-        stats.add(labelNormDivFormula, 2, 3);
+        stats.add(labelMeansFormula, 1, 1, 2, 1);
+        stats.add(labelVarianceFormula, 1, 2, 2, 1);
+        stats.add(labelNormDivFormula, 1, 3, 2, 1);
+
         stats.add(new Label("Formula"), 0, 4);
         stats.add(labelFormula, 1, 4, 2, 1);
 

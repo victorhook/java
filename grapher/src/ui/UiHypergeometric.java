@@ -18,10 +18,12 @@ import java.util.stream.IntStream;
 
 public class UiHypergeometric extends TabContent {
 
-    private int n;
+    private int N, n;
     private double p;
-    private Label labelN, labelP;
-    private Slider sliderN, sliderP;
+    private Label labelN, labelP, labeln;
+    private Slider sliderN, sliderP, slidern;
+
+    private final String IMAGE_NAME = "hypergeometric_distribution.png";
 
     private HypergeometricDistribution distribution;
 
@@ -33,27 +35,36 @@ public class UiHypergeometric extends TabContent {
         width = canvas.getWidth();
         height = canvas.getHeight();
 
-        labelP = new Label("asd");
-        labelN = new Label("asd");
+        labelP = new Label("");
+        labelN = new Label("");
+        labeln = new Label("");
         sliderP = new Slider(0, 1, .5);
         sliderN = new Slider(0, 30, 10);
+        slidern = new Slider(0, 30, 10);
 
         labelP.setMaxWidth(Double.MAX_VALUE);
         labelN.setMaxWidth(Double.MAX_VALUE);
+        labeln.setMaxWidth(Double.MAX_VALUE);
         sliderP.setMaxWidth(Double.MAX_VALUE);
         sliderN.setMaxWidth(Double.MAX_VALUE);
+        slidern.setMaxWidth(Double.MAX_VALUE);
 
+        Label N = new Label("N");
+        N.setMaxWidth(Double.MAX_VALUE);
+        Label n = new Label("n");
+        n.setMaxWidth(Double.MAX_VALUE);
         Label p = new Label("Probability");
         p.setMaxWidth(Double.MAX_VALUE);
-        Label n = new Label("N");
-        n.setMaxWidth(Double.MAX_VALUE);
 
-        params.add(p, 0, 2);
-        params.add(labelP, 1, 2);
-        params.add(sliderP, 2, 2);
+        params.add(N, 0, 2);
+        params.add(labelN, 1, 2);
+        params.add(sliderN, 2, 2);
         params.add(n, 0, 3);
-        params.add(labelN, 1, 3);
-        params.add(sliderN, 2, 3);
+        params.add(labeln, 1, 3);
+        params.add(slidern, 2, 3);
+        params.add(p, 0, 4);
+        params.add(labelP, 1, 4);
+        params.add(sliderP, 2, 4);
 
         ColumnConstraints col1 = new ColumnConstraints(), col2 = new ColumnConstraints(), col3 = new ColumnConstraints();
         col1.setPercentWidth(40);
@@ -66,8 +77,13 @@ public class UiHypergeometric extends TabContent {
             updateUI();
         });
 
-        sliderN.valueProperty().addListener((observable, oldValue, newValue) -> {
+        slidern.valueProperty().addListener((observable, oldValue, newValue) -> {
             this.n = newValue.intValue();
+            updateUI();
+        });
+
+        sliderN.valueProperty().addListener((observable, oldValue, newValue) -> {
+            this.N = newValue.intValue();
             updateUI();
         });
 
@@ -151,13 +167,10 @@ public class UiHypergeometric extends TabContent {
     @Override
     public void initLabels() {
         title = new Label("HyperGeometric");
-        labelMeansVal = new Label("");
-        labelVarianceVal = new Label("");
-        labelNormDivVal = new Label("");
         labelMeansFormula = new Label(String.format("E(%s) = np", Utils.LETTER_XI));
         labelVarianceFormula = new Label(String.format("V(%s) = (N-n)/(N-1)*np(1-p)", Utils.LETTER_XI));
         labelNormDivFormula = new Label(String.format("%s = sqrt(np)", Utils.LETTER_SIGMA));
-        Image img = new Image("ui/images/binomial_distribution.png");
+        Image img = new Image(LOGO_PATH + IMAGE_NAME);
         ImageView view = new ImageView(img);
         view.setFitWidth(0xff);
         view.setPreserveRatio(true);

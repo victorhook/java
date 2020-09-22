@@ -2,7 +2,7 @@ package textproc;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeMap;
+import java.util.stream.Stream;
 
 public class MultiWordCounter implements TextProcessor {
 
@@ -10,10 +10,7 @@ public class MultiWordCounter implements TextProcessor {
 
     public MultiWordCounter(String[] regions) {
         this.regions = new HashMap<>();
-        //this.regions = new TreeMap<>();
-        for (String region: regions) {
-            this.regions.put(region, 0);
-        }
+        Stream.of(regions).forEach(region -> this.regions.put(region, 0));
     }
 
     @Override
@@ -25,9 +22,13 @@ public class MultiWordCounter implements TextProcessor {
 
     @Override
     public void report() {
-        for (String region: regions.keySet()) {
-            System.out.printf("%s: %s\n", region, regions.get(region));
-        }
+        System.out.println("MultiWordCounter");
+        regions.keySet().stream()
+                        .sorted((o1, o2) -> {
+                            int res = regions.get(o1) - regions.get(o2);
+                            return res != 0 ? -1*res : -1*o1.compareTo(o2);
+                        })
+                        .forEach(key -> System.out.printf("%s: %s\n", key, regions.get(key)));
         System.out.println("");
     }
 }

@@ -1,14 +1,21 @@
 package distribution;
 
+import com.sun.webkit.network.Util;
+
+import java.util.ArrayList;
 import java.util.OptionalDouble;
 import java.util.stream.IntStream;
 
 public class HypergeometricDistribution implements Distribution {
 
     private double p;
-    private int n, radius;
+    private int N, n;
+    private ArrayList<Integer> probsCached;
 
 
+    public HypergeometricDistribution() {
+        probsCached = new ArrayList<>();
+    }
 
     @Override
     public double getExpectedValue() {
@@ -44,8 +51,13 @@ public class HypergeometricDistribution implements Distribution {
 
 
     public double getProbability(double x) {
-        double nOverX = Utils.factorial(n) / ( Utils.factorial((int) x) * Utils.factorial((int) (n-x)) );
-        return nOverX * Math.pow(p, x) * Math.pow(1-p, n-x);
+        int upper = (int) (N * p);
+        System.out.println(upper);
+        int res = Utils.factorial(upper) / ( Utils.factorial((int) x) );
+        //int l1 = Utils.factorial(upper) / (Utils.factorial((int) x) * Utils.factorial(upper - (int) x));
+        return res;
+/*        int l2 =  Utils.factorial(N - upper) / ( Utils.factorial(n-(int) x) * Utils.factorial(N-upper-n-(int) x ));
+        return (l1 * l2) / (Utils.factorial(N) / (Utils.factorial(n) * Utils.factorial(N - n)) );*/
     }
 
     public double getProbabilityLT(int stop) {
@@ -59,6 +71,14 @@ public class HypergeometricDistribution implements Distribution {
     }
     public double getProbabilityGTE(int stop) {
         return 1 - getProbabilityUpTo(stop);
+    }
+
+    public static void main(String[] args) {
+        HypergeometricDistribution h = new HypergeometricDistribution();
+        h.N = 10;
+        h.p = .7;
+        h.n = 2;
+        System.out.println(h.getProbability(10));
     }
 
     @Override

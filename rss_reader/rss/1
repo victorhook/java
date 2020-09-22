@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/"
+xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
+>
+
+<channel>
+	<title>Sky &amp; Telescope</title>
+	<atom:link href="https://skyandtelescope.org/feed/" rel="self" type="application/rss+xml" />
+	<link>https://skyandtelescope.org</link>
+	<description>The essential guide to astronomy</description>
+	<lastBuildDate>Sat, 19 Sep 2020 14:44:32 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.4</generator>
+<!-- podcast_generator="Blubrry PowerPress/8.2.11" mode="advanced" feedslug="feed" Blubrry PowerPress Podcasting plugin for WordPress (https://www.blubrry.com/powerpress/) -->
+	<atom:link rel="hub" href="https://pubsubhubbub.appspot.com/" />
+	<itunes:summary>When you head outdoors tonight, take Sky &amp; Telescope&#039;s Sky Tour astronomy podcast with you for a guided tour to the night sky. Learn what constellations are visible, find out where and when you&#039;ll see the planets, and catch each month&#039;s celestial highlights, from meteor showers to eclipses.</itunes:summary>
+	<itunes:author>American Astronomical Society</itunes:author>
+	<itunes:explicit>clean</itunes:explicit>
+	<itunes:image href="http://skyandtelescope.org/wp-content/uploads/powerpress/SkyTourPodcastCover.png" />
+	<itunes:type>episodic</itunes:type>
+	<itunes:owner>
+		<itunes:name>American Astronomical Society</itunes:name>
+		<itunes:email>sky-webmaster@skyandtelescope.org</itunes:email>
+	</itunes:owner>
+	<managingEditor>sky-webmaster@skyandtelescope.org (American Astronomical Society)</managingEditor>
+	<copyright>AAS Sky Publishing, LLC, All Rights Reserved. 506450</copyright>
+	<itunes:subtitle>Discover the night sky with Sky &amp; Telescope&#039;s J. Kelly Beatty</itunes:subtitle>
+	<image>
+		<title>Sky &amp; Telescope</title>
+		<url>http://skyandtelescope.org/wp-content/uploads/powerpress/SkyTourPodcastCover.png</url>
+		<link>https://skyandtelescope.org</link>
+	</image>
+	<itunes:category text="Science">
+		<itunes:category text="Astronomy" />
+	</itunes:category>
+	<googleplay:category text="Science &amp; Medicine"/>
+	<rawvoice:rating>TV-G</rawvoice:rating>
+	<rawvoice:frequency>Monthly</rawvoice:frequency>
+	<rawvoice:subscribe feed="https://skyandtelescope.org/feed/" html="https://skyandtelescope.org/subscribe-to-podcast/" itunes="https://itunes.apple.com/hu/podcast/sky-telescope-sky-tour-podcasts/id955147516?mt=2" blubrry="http://blubrry.com/SkyTourPodcast" stitcher="https://www.stitcher.com/s?fid=360758&amp;refid=stpr" spotify="https://open.spotify.com/show/1FgsoFHXBjli3PpYOgZu4J?si=WBuOAkfvTim4YutHuyiOQw"></rawvoice:subscribe>
+	<item>
+		<title>Mount Wilson Escapes Wildfire; Amateur Observatory Destroyed</title>
+		<link>https://skyandtelescope.org/astronomy-news/mount-wilson-escapes-wildfire-amateur-observatory-destroyed/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/mount-wilson-escapes-wildfire-amateur-observatory-destroyed/#comments</comments>
+
+		<dc:creator><![CDATA[David Dickinson &#38; Sabrina Garvin]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2020 19:18:53 +0000</pubDate>
+				<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Astronomy and Society]]></category>
+		<category><![CDATA[People, Places, and Events]]></category>
+		<category><![CDATA[Professional Telescopes]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507457100</guid>
+
+					<description><![CDATA[<p>Firefighting crews held the line as wildfire threatened Mount Wilson; an amateur observatory built by the Tri-Valley Stargazers was not so lucky.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/mount-wilson-escapes-wildfire-amateur-observatory-destroyed/">Mount Wilson Escapes Wildfire; Amateur Observatory Destroyed</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/mount-wilson-escapes-wildfire-amateur-observatory-destroyed/feed/</wfw:commentRss>
+			<slash:comments>1</slash:comments>
+
+
+			</item>
+		<item>
+		<title>This Week&#039;s Sky at a Glance, September 18 – 26</title>
+		<link>https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-18-26-2/</link>
+					<comments>https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-18-26-2/#comments</comments>
+
+		<dc:creator><![CDATA[Alan MacRobert]]></dc:creator>
+		<pubDate>Fri, 18 Sep 2020 09:15:00 +0000</pubDate>
+				<category><![CDATA[Observing]]></category>
+		<category><![CDATA[This Week's Sky At a Glance]]></category>
+		<category><![CDATA[This week's sky at a glance]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507457050</guid>
+
+					<description><![CDATA[<p>Jupiter and Saturn continue shining nearly level in the south at dusk. Meanwhile, the stars show the changing of the seasons: Just after nightfall, Cassiopeia has climbed higher in the northeast than the Big Dipper has sunk in the northwest. </p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-18-26-2/">This Week&#039;s Sky at a Glance, September 18 – 26</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-18-26-2/feed/</wfw:commentRss>
+			<slash:comments>3</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Race to Venus: How We’ll Verify Phosphine</title>
+		<link>https://skyandtelescope.org/astronomy-news/race-to-venus-how-well-verify-phosphine/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/race-to-venus-how-well-verify-phosphine/#respond</comments>
+
+		<dc:creator><![CDATA[Arwen Rimmer]]></dc:creator>
+		<pubDate>Wed, 16 Sep 2020 19:30:00 +0000</pubDate>
+				<category><![CDATA[Astrobiology]]></category>
+		<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Solar System]]></category>
+		<category><![CDATA[Venus]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507457040</guid>
+
+					<description><![CDATA[<p>Confirming phosphine's presence on Venus is difficult from Earth . . . and that makes a good case for a mission to our sister planet.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/race-to-venus-how-well-verify-phosphine/">Race to Venus: How We’ll Verify Phosphine</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/race-to-venus-how-well-verify-phosphine/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Sun’s Activity Cycle Is Stabilizing</title>
+		<link>https://skyandtelescope.org/astronomy-news/suns-cycle-of-magnetic-activity-is-stabilizing/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/suns-cycle-of-magnetic-activity-is-stabilizing/#respond</comments>
+
+		<dc:creator><![CDATA[Monica Young]]></dc:creator>
+		<pubDate>Wed, 16 Sep 2020 19:29:03 +0000</pubDate>
+				<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Solar System]]></category>
+		<category><![CDATA[Observing the Sun]]></category>
+		<category><![CDATA[solar cycle]]></category>
+		<category><![CDATA[Sun]]></category>
+		<category><![CDATA[sunspots]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507457064</guid>
+
+					<description><![CDATA[<p>Solar Cycle 25 is here, and forecasts suggest the next decade of the Sun’s activity will mimic the last one — halting a 40-year trend.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/suns-cycle-of-magnetic-activity-is-stabilizing/">Sun’s Activity Cycle Is Stabilizing</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/suns-cycle-of-magnetic-activity-is-stabilizing/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Do Science With Your Astrophotography</title>
+		<link>https://skyandtelescope.org/astronomy-blogs/imaging-foundations-richard-wright/science-with-astrophotography/</link>
+					<comments>https://skyandtelescope.org/astronomy-blogs/imaging-foundations-richard-wright/science-with-astrophotography/#respond</comments>
+
+		<dc:creator><![CDATA[Richard S. Wright Jr.]]></dc:creator>
+		<pubDate>Tue, 15 Sep 2020 16:41:59 +0000</pubDate>
+				<category><![CDATA[Astronomy Blogs]]></category>
+		<category><![CDATA[Astrophotography: Tips & Techniques]]></category>
+		<category><![CDATA[Imaging Foundations with Richard Wright]]></category>
+		<category><![CDATA[Resources and Education]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507456898</guid>
+
+					<description><![CDATA[<p>Astrophotography can be its own reward, but there are ways to dig deeper. Here are some ways to do quantitative science with your images.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-blogs/imaging-foundations-richard-wright/science-with-astrophotography/">Do Science With Your Astrophotography</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-blogs/imaging-foundations-richard-wright/science-with-astrophotography/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Uranian Moons Are Like Dwarf Planets</title>
+		<link>https://skyandtelescope.org/astronomy-news/uranian-moons-are-like-dwarf-planets/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/uranian-moons-are-like-dwarf-planets/#respond</comments>
+
+		<dc:creator><![CDATA[Govert Schilling]]></dc:creator>
+		<pubDate>Tue, 15 Sep 2020 13:00:00 +0000</pubDate>
+				<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Solar System]]></category>
+		<category><![CDATA[Uranus]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507456998</guid>
+
+					<description><![CDATA[<p>The moons of Uranus exhibit heat signatures similar to dwarf planets in the Kuiper Belt — where the moons were likely born.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/uranian-moons-are-like-dwarf-planets/">Uranian Moons Are Like Dwarf Planets</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/uranian-moons-are-like-dwarf-planets/feed/</wfw:commentRss>
+			<slash:comments>0</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Potential Biosignature Found in Venus’s Clouds</title>
+		<link>https://skyandtelescope.org/astronomy-news/potential-biosignature-found-in-venuss-clouds/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/potential-biosignature-found-in-venuss-clouds/#comments</comments>
+
+		<dc:creator><![CDATA[Arwen Rimmer]]></dc:creator>
+		<pubDate>Mon, 14 Sep 2020 16:36:10 +0000</pubDate>
+				<category><![CDATA[Astrobiology]]></category>
+		<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Solar System]]></category>
+		<category><![CDATA[astrobiology]]></category>
+		<category><![CDATA[Venus]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507456972</guid>
+
+					<description><![CDATA[<p>Astronomers might have found a potential indication of life in the clouds of Venus. </p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/potential-biosignature-found-in-venuss-clouds/">Potential Biosignature Found in Venus’s Clouds</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/potential-biosignature-found-in-venuss-clouds/feed/</wfw:commentRss>
+			<slash:comments>7</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Hubble Images Reveal Dark Matter Problem</title>
+		<link>https://skyandtelescope.org/astronomy-news/hubble-images-reveal-dark-matter-problem/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/hubble-images-reveal-dark-matter-problem/#comments</comments>
+
+		<dc:creator><![CDATA[Monica Young]]></dc:creator>
+		<pubDate>Sun, 13 Sep 2020 15:00:00 +0000</pubDate>
+				<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Cosmology]]></category>
+		<category><![CDATA[Galaxies]]></category>
+		<category><![CDATA[galaxy clusters]]></category>
+		<category><![CDATA[Gravitational Lensing]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507456883</guid>
+
+					<description><![CDATA[<p>Astronomers studying Hubble Space Telescope images of massive galaxy clusters have uncovered a potential problem with dark matter.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/hubble-images-reveal-dark-matter-problem/">Hubble Images Reveal Dark Matter Problem</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/hubble-images-reveal-dark-matter-problem/feed/</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+
+
+			</item>
+		<item>
+		<title>Amateur Astronomer Finds Kilometer-size Asteroid</title>
+		<link>https://skyandtelescope.org/astronomy-news/amateur-astronomer-finds-kilometer-size-asteroid/</link>
+					<comments>https://skyandtelescope.org/astronomy-news/amateur-astronomer-finds-kilometer-size-asteroid/#comments</comments>
+
+		<dc:creator><![CDATA[David Dickinson]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2020 14:50:29 +0000</pubDate>
+				<category><![CDATA[Astronomy & Observing News]]></category>
+		<category><![CDATA[Astronomy Blogs]]></category>
+		<category><![CDATA[Astronomy in Space with David Dickinson]]></category>
+		<category><![CDATA[Solar System]]></category>
+		<category><![CDATA[asteroid]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507456826</guid>
+
+					<description><![CDATA[<p>A grant front the Planetary Society enabled an amateur astronomer's discovery of kilometer-size  asteroid 2020 QU6.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/astronomy-news/amateur-astronomer-finds-kilometer-size-asteroid/">Amateur Astronomer Finds Kilometer-size Asteroid</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/astronomy-news/amateur-astronomer-finds-kilometer-size-asteroid/feed/</wfw:commentRss>
+			<slash:comments>4</slash:comments>
+
+
+			</item>
+		<item>
+		<title>This Week&#039;s Sky at a Glance, September 11 – 19</title>
+		<link>https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-11-19-2/</link>
+					<comments>https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-11-19-2/#comments</comments>
+
+		<dc:creator><![CDATA[Alan MacRobert]]></dc:creator>
+		<pubDate>Fri, 11 Sep 2020 09:32:45 +0000</pubDate>
+				<category><![CDATA[Observing]]></category>
+		<category><![CDATA[This Week's Sky At a Glance]]></category>
+		<category><![CDATA[This week's sky at a glance]]></category>
+		<guid isPermaLink="false">https://skyandtelescope.org/?p=255507456653</guid>
+
+					<description><![CDATA[<p>Vega passes the zenith in late twilight. Vega is bigger, hotter, and 50 times brighter than our Sun. But at a distance of 25 light-years, it's 1.6 million times farther away.</p>
+<p>Jupiter and Saturn still dominate the south at dusk. And fiery Mars, close and almost Jupiter-bright, rises in the east around the end of twilight. It's at its highest and telescopic best in the south around 3 a.m. daylight-saving time.</p>
+<p>The post <a rel="nofollow" href="https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-11-19-2/">This Week&#039;s Sky at a Glance, September 11 – 19</a> appeared first on <a rel="nofollow" href="https://skyandtelescope.org">Sky &amp; Telescope</a>.</p>
+]]></description>
+
+					<wfw:commentRss>https://skyandtelescope.org/observing/this-weeks-sky-at-a-glance-september-11-19-2/feed/</wfw:commentRss>
+			<slash:comments>6</slash:comments>
+
+
+			</item>
+	</channel>
+</rss>
