@@ -11,22 +11,25 @@ public class ConfigHandler {
     public static final String CONFIG_PATH = System.getProperty("user.home") + "/.config/filesender/",
                                CONF_FILE = CONFIG_PATH + "settings.conf";
 
+    private static Map<String, String> config;
+
     public static Map<String, String> getConfig() throws FileNotFoundException {
+        if (config == null) {
+            File confDir = new File(CONFIG_PATH);
+            if (!confDir.isDirectory()) {
+                createNewConfig();
+            }
 
-        File confDir = new File(CONFIG_PATH);
-        if (!confDir.isDirectory()) {
-            createNewConfig();
+            config = new HashMap<>();
+            String[] confData = new Scanner(new File(CONF_FILE)).useDelimiter("\\Z").next().split("\n");
+            for (String line: confData) {
+                String[] keywords = line.split("=");
+                config.put(keywords[0].trim(), keywords[1].trim());
+            }
         }
-
-        Map<String, String> config = new HashMap<>();
-        String[] confData = new Scanner(new File(CONF_FILE)).useDelimiter("\\Z").next().split("\n");
-        for (String line: confData) {
-            String[] keywords = line.split("=");
-            config.put(keywords[0].trim(), keywords[1].trim());
-        }
-
         return config;
     }
+
 
     public static void createNewConfig() {}
 

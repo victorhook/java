@@ -1,20 +1,22 @@
 package server;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.security.KeyPair;
+import java.security.*;
+import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.Base64;
 
-import global.KeyHandler;
-import global.Protocol;
+import global.*;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class Request implements Runnable {
 
-    private static double TIMEOUT = 2;
+    private static double TIMEOUT = 2000;
     private Socket connection;
 
     Request(Socket connection) {
@@ -27,63 +29,88 @@ public class Request implements Runnable {
         System.out.printf("Connected: %s\n", connection.getInetAddress());
 
         BufferedInputStream in;
+        DataOutputStream out;
+        Packet packet;
 
-        //ByteArrayInputStream input = new ByteArrayInputStream();
+/*        try {
+            in = new BufferedInputStream(connection.getInputStream());
+            out = new DataOutputStream(connection.getOutputStream());
+            ProtocolHandler ph = new ProtocolHandler();
 
-        ByteBuffer headBuf = ByteBuffer.allocate(Protocol.HEADER_SIZE);
-        int version, command, size;
+            packet = ph.readPacket(in);
 
-        while (t1 - t0 < 5000) {
+
+
+        } catch (Exception e) {}*/
+
+
+        while (t1 - t0 < TIMEOUT) {
             try {
                 in = new BufferedInputStream(connection.getInputStream());
+                out = new DataOutputStream(connection.getOutputStream());
 
-                int next, i = 0;
-                while ( (next = in.read()) >= 0 ) {
-                    headBuf.put((byte) next);
-                    if (++i == Protocol.HEADER_SIZE)
-                        break;
-                }
+                KeyPair keyPair = KeyHandler.getKeys();
+                ProtocolHandler ph = new ProtocolHandler(keyPair);
+                Crypter crypter = new Crypter(keyPair);
 
-                headBuf.flip();
-                version = headBuf.get();
-                command = headBuf.get();
-                size = headBuf.getInt();
+                ph.respondInit(out, in);
 
-                System.out.printf("Version: %s, Command: %s, size: %s\n", version, command, size);
+                /*
+                TODO: After handshake is complete, let's (by default) use encryption
+                        for every packet.
 
-                ByteBuffer dataBuf = ByteBuffer.allocate(size);
+                        This check should be done in sendPacket() at ph
 
-                switch (command) {
+                 */
+                Crypter.Pair pair = crypter.encrypt(ph.getTheirPubKey(), "SECRET DATA!".getBytes());
+                ph.sendPacket(1, pair.encryptedKey, out);
+                ph.sendPacket(1, pair.encryptedData, out);
+/*
+                switch (packet.command) {
                     case Protocol.CMD_INIT: {
-                        while ( (next = in.read()) >= 0 ) {
-                            dataBuf.put((byte) next);
-                        }
-                        System.out.println(new String(dataBuf.array()));
+                        PublicKey pubKey = KeyHandler.readPublicKey(packet.data);
+                        ph.setTheirPubKey(pubKey);
+
+                        // Read in response, handshake complete
+                        packet = ph.readPacket(in);
+
+                        Crypter.Pair pair = crypter.encrypt(ph.getTheirPubKey(), "SECRET DATA!".getBytes());
+                        ph.sendPacket(1, pair.encryptedKey, out);
+                        ph.sendPacket(1, pair.encryptedData, out);
+
+
                     }
                     break;
                     default: {
                         System.out.println("Not implemented yet");
                     }
                     break;
-                }
+                }*/
 
-                t1 = System.currentTimeMillis();
-                break;
             } catch (IOException e) {
                 e.printStackTrace();
+            }  catch (InvalidKeySpecException e) {
+                e.printStackTrace();
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (NoSuchPaddingException e) {
+                e.printStackTrace();
+            } catch (InvalidKeyException e) {
+                e.printStackTrace();
+            } catch (IllegalBlockSizeException e) {
+                e.printStackTrace();
+            } catch (BadPaddingException e) {
+                e.printStackTrace();
             }
+
+            t1 = System.currentTimeMillis();
+            break;
         }
 
         if (t1 - t0 >= 5000)
             System.out.println("Timed out");
 
-        try {
-            connection.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         System.out.println("Closing connection");
-        //KeyPair keys = KeyHandler.getKeys();
     }
 
 }
