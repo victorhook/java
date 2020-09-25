@@ -12,8 +12,8 @@ public class Crypter {
     private SecretKey symmetricKey;
 
     private static String asymetricAlgorithm;
-    private static final String SYMETRIC_ALGORITHM = "AES";
-    private static final int SYMMETRIC_ALGORITHM_KEY_SIZE = 128;
+    public static final String SYMETRIC_ALGORITHM = "AES";
+    public static final int SYMMETRIC_ALGORITHM_KEY_SIZE = 128;
 
     public Crypter(KeyPair keyPair) throws NoSuchAlgorithmException, FileNotFoundException {
         this.myPrivKey = keyPair.getPrivate();

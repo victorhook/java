@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+
+    <servlet>
+        <servlet-name>default</servlet-name>
+        <servlet-class>
+          org.apache.catalina.servlets.DefaultServlet
+        </servlet-class>
+        <init-param>
+            <param-name>debug</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <init-param>
+            <param-name>listings</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+	<servlet>
+		<servlet-name>nisse</servlet-name>
+		<servlet-class>Nisse</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>nisse</servlet-name>
+		<url-pattern>/nisse</url-pattern>
+	</servlet-mapping>
+	
+	<welcome-file>html/index.jsp</welcome-file>
+	
+	<servlet-mapping>
+        <servlet-name>default</servlet-name>
+        <url-pattern>/html/index.jsp</url-pattern>
+    </servlet-mapping>
+	
+</web-app>

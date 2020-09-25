@@ -18,15 +18,14 @@ import javax.crypto.spec.SecretKeySpec;
 public class KeyHandler {
 
     public static String KEY_DIR = ConfigHandler.CONFIG_PATH + "keys/",
-                  PUB_KEY = KEY_DIR + "pub.key", PRIV_KEY = KEY_DIR + "priv.key";
+                         PUB_KEY_PATH = KEY_DIR + "pub.key", PRIV_KEY_PATH = KEY_DIR + "priv.key",
+                         SYM_KEY_PATH = KEY_DIR + "sym.key";
 
     public static void main(String[] args) throws Exception {
 
-        KeyPair pair = getKeys();
-        Crypter crypter = new Crypter(pair);
-        Crypter.Pair k = crypter.encrypt(pair.getPublic(), "SECRET DATA!".getBytes());
-        byte[] res = crypter.decrypt(k.encryptedKey, k.encryptedData);
-        System.out.println(new String(res));
+        KeyPair k = getKeys();
+        System.out.println(k.getPublic());
+        System.out.println(k.getPrivate());
 
 
 /*        KeyGenerator generator = KeyGenerator.getInstance("AES");
@@ -96,21 +95,28 @@ public class KeyHandler {
         keyPairGenerator.initialize(Integer.valueOf(config.getOrDefault("keysize", "2048")));
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
-        saveKey(keyPair.getPublic(), PUB_KEY);
-        saveKey(keyPair.getPrivate(), PRIV_KEY);
+        KeyGenerator symKeyGenerator = KeyGenerator.getInstance(Crypter.SYMETRIC_ALGORITHM);
+        symKeyGenerator.init(Crypter.SYMMETRIC_ALGORITHM_KEY_SIZE);
+        SecretKey secretKey = symKeyGenerator.generateKey();
+
+        saveKey(keyPair.getPublic(), PUB_KEY_PATH);
+        saveKey(keyPair.getPrivate(), PRIV_KEY_PATH);
+        saveKey(secretKey, SYM_KEY_PATH);
+    }
+
+    public static SecretKey getSymmetricKey(String key) throws IOException {
+        byte[] keyData = Base64.getDecoder().decode(Files.readAllBytes(Paths.get(key)));
+        SecretKey secretKey = new SecretKeySpec(keyData , 0, keyData.length, Crypter.SYMETRIC_ALGORITHM);
+        return secretKey;
     }
 
     public static KeyPair getKeys() throws NoSuchAlgorithmException, IOException, InvalidKeySpecException {
         var config = ConfigHandler.getConfig();
-        PublicKey pubKey = loadPubKey(PUB_KEY);
-        PrivateKey privKey = loadPrivKey(PRIV_KEY);
+        PublicKey pubKey = loadPubKey(PUB_KEY_PATH);
+        PrivateKey privKey = loadPrivKey(PRIV_KEY_PATH);
         return new KeyPair(pubKey, privKey);
     }
 
-    private static PublicKey loadPubKey(String key) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] keyData = Files.readAllBytes(Paths.get(key));
-        return readPublicKey(keyData);
-    }
 
     private static String getAlgorithm() throws FileNotFoundException {
         var config = ConfigHandler.getConfig();
@@ -134,13 +140,18 @@ public class KeyHandler {
     }
 
     private static PrivateKey loadPrivKey(String key) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        byte[] keyData = Files.readAllBytes(Paths.get(key));
+        byte[] keyData = Base64.getDecoder().decode(Files.readAllBytes(Paths.get(key)));
         return readPrivateKey(keyData);
+    }
+
+    private static PublicKey loadPubKey(String key) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
+        byte[] keyData = Base64.getDecoder().decode(Files.readAllBytes(Paths.get(key)));
+        return readPublicKey(keyData);
     }
 
     private static void saveKey(Key key, String output) throws IOException {
         FileOutputStream stream = new FileOutputStream(output);
-        stream.write(key.getEncoded());
+        stream.write(Base64.getEncoder().encode(key.getEncoded()));
         stream.close();
     }
 

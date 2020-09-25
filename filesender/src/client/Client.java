@@ -18,10 +18,12 @@ import java.util.Arrays;
 public class Client implements Runnable {
 
     private Socket connection;
+    private String host;
 
     public static void main(String[] args) {
         new Thread(new Client()).start();
     }
+
 
     public void run() {
         String ip = "127.0.0.1";
@@ -29,23 +31,31 @@ public class Client implements Runnable {
         try {
             connection = new Socket();
             connection.connect(new InetSocketAddress(ip, port));
+            host = connection.getInetAddress().getHostAddress();
+
             BufferedInputStream in;
             DataOutputStream out;
             Packet packet;
+            int command;
 
             out = new DataOutputStream(connection.getOutputStream());
             in = new BufferedInputStream(connection.getInputStream());
             KeyPair keyPair = KeyHandler.getKeys();
-            ProtocolHandler ph = new ProtocolHandler(keyPair);
-            Crypter crypter = new Crypter(keyPair);
+            ProtocolHandler ph = new ProtocolHandler(in, out, keyPair);
+
+            ph.doInit();
+
+            ph.sendCommand(Protocol.CMD_AUTH);
+            command = ph.readCommand();
+
+            if (command == Protocol.CMD_AUTH_PASS_REQUIRED) {
+                String password = Authenticator.getPassForHost(host);
+                if (password != null) {
+                    ph.sendPacket(Protocol.CMD_AUTH_PASS, password.getBytes());
+                }
+            }
 
 
-/*            ph.sendPacket(Protocol.CMD_INIT, ph.getMyPubKey().getEncoded(), out);
-
-            packet = ph.readPacket(in);
-            PublicKey pubKey = KeyHandler.readPublicKey(packet.data);
-            System.out.printf("Key is from server: %s", pubKey);*/
-            ph.doInit(out, in);
 
 /*            ph.sendPacket(1, "asd".getBytes(), out);
 

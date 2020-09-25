@@ -13,6 +13,8 @@ can be either an entire directory or single files.
 
 - Construct a protocol
 - Handle encryption keys
+- Encryption: Encrypt a symetric key with an asymetric
+and use the encrypted key to encrypt data.
 
 ### Technical details
 
