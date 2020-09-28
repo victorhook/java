@@ -40,43 +40,20 @@ public class Request implements Runnable {
 
                 KeyPair keyPair = KeyHandler.getKeys();
                 ProtocolHandler ph = new ProtocolHandler(in, out, keyPair);
-                Crypter crypter = new Crypter(keyPair);
 
                 ph.respondInit();
                 command = ph.readCommand();
-                if (command == Protocol.CMD_AUTH) {
-                    ph.sendCommand(Protocol.CMD_AUTH_PASS_REQUIRED);
 
-                    packet = ph.readPacket();
-                    System.out.printf("Got packet: %s\n", new String(packet.data));
-                    boolean loginOk = Authenticator.authenticate(new String(packet.data));
-                    if (loginOk) {
-                        System.out.println("Login ok!");
-                    }
+                switch (command) {
+                    case Protocol.CMD_AUTH:
+                        if (ph.respondAuthentication()) {
+                            System.out.printf("Login from %s successful\n",
+                                              connection.getInetAddress().getHostAddress());
+                            ServerSession session = new ServerSession(connection, ph);
+                            session.start();
+                        }
+                        break;
                 }
-
-
-/*
-                switch (packet.command) {
-                    case Protocol.CMD_INIT: {
-                        PublicKey pubKey = KeyHandler.readPublicKey(packet.data);
-                        ph.setTheirPubKey(pubKey);
-
-                        // Read in response, handshake complete
-                        packet = ph.readPacket(in);
-
-                        Crypter.Pair pair = crypter.encrypt(ph.getTheirPubKey(), "SECRET DATA!".getBytes());
-                        ph.sendPacket(1, pair.encryptedKey, out);
-                        ph.sendPacket(1, pair.encryptedData, out);
-
-
-                    }
-                    break;
-                    default: {
-                        System.out.println("Not implemented yet");
-                    }
-                    break;
-                }*/
 
             } catch (IOException e) {
                 e.printStackTrace();

@@ -104,8 +104,8 @@ public class KeyHandler {
         saveKey(secretKey, SYM_KEY_PATH);
     }
 
-    public static SecretKey getSymmetricKey(String key) throws IOException {
-        byte[] keyData = Base64.getDecoder().decode(Files.readAllBytes(Paths.get(key)));
+    public static SecretKey getSymmetricKey() throws IOException {
+        byte[] keyData = Base64.getDecoder().decode(Files.readAllBytes(Paths.get(SYM_KEY_PATH)));
         SecretKey secretKey = new SecretKeySpec(keyData , 0, keyData.length, Crypter.SYMETRIC_ALGORITHM);
         return secretKey;
     }
@@ -116,7 +116,6 @@ public class KeyHandler {
         PrivateKey privKey = loadPrivKey(PRIV_KEY_PATH);
         return new KeyPair(pubKey, privKey);
     }
-
 
     private static String getAlgorithm() throws FileNotFoundException {
         var config = ConfigHandler.getConfig();

@@ -12,9 +12,7 @@ can be either an entire directory or single files.
 ### TODOS:
 
 - Construct a protocol
-- Handle encryption keys
-- Encryption: Encrypt a symetric key with an asymetric
-and use the encrypted key to encrypt data.
+
 
 ### Technical details
 
@@ -23,7 +21,12 @@ and use the encrypted key to encrypt data.
 ##### Packet
 | version | command | size | <br>
 | 8 | 8 | 32 | <br>
-| data |
+| data | <br>
+| ------ |
+
+##### [ DATA ] File-packet
+| file-size | dest-size |   dest  | <br>
+|     32    |  16  | ------ |
 
 #### Encryption
 

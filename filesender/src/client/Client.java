@@ -35,8 +35,6 @@ public class Client implements Runnable {
 
             BufferedInputStream in;
             DataOutputStream out;
-            Packet packet;
-            int command;
 
             out = new DataOutputStream(connection.getOutputStream());
             in = new BufferedInputStream(connection.getInputStream());
@@ -46,44 +44,21 @@ public class Client implements Runnable {
             ph.doInit();
 
             ph.sendCommand(Protocol.CMD_AUTH);
-            command = ph.readCommand();
 
-            if (command == Protocol.CMD_AUTH_PASS_REQUIRED) {
+            if (ph.readCommand() == Protocol.CMD_AUTH_PASS_REQUIRED) {
                 String password = Authenticator.getPassForHost(host);
+
                 if (password != null) {
-                    ph.sendPacket(Protocol.CMD_AUTH_PASS, password.getBytes());
+                    System.out.println(password);
+                    if (ph.authenticate(password)) {
+                        System.out.println("Auth ok!");
+
+                        ClientSession session = new ClientSession(connection, ph);
+                        session.start();
+
+                    }
                 }
             }
-
-
-
-/*            ph.sendPacket(1, "asd".getBytes(), out);
-
-            packet = ph.readPacket(in);
-            byte[] encKey = packet.data;
-            packet = ph.readPacket(in);
-            byte[] encData = packet.data;
-
-            System.out.println(encKey);
-            System.out.println(encData);
-
-            byte[] data = crypter.decrypt(encKey, encData);
-            System.out.printf("Recieved data: %s\n", new String(data));*/
-
-
-
-            //Protocol.sendPacket(Protocol.CMD_INIT, myPubKey.getEncoded(), out);
-
-
-            //otherPubKey = new HandShakeHandler(in, out, myPubKey).init();
-
-/*            Crypter crypter = new Crypter(myPubKey, myPrivKey);
-            byte[] signedKey = crypter.sign(otherPubKey.getEncoded());
-            byte[] packet = Protocol.packet(Protocol.CMD_AUTH, signedKey);
-            out.write(packet);
-            out.flush();*/
-
-
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,50 +68,4 @@ public class Client implements Runnable {
             } catch (Exception e) { e.printStackTrace(); }
         }
     }
-
-
-/*
-    private class HandShakeHandler implements HandShake {
-        private BufferedInputStream in;
-        private DataOutputStream out;
-        private PublicKey pubKey;
-
-        public HandShakeHandler(BufferedInputStream in, DataOutputStream out, PublicKey pubKey) {
-            this.in = in;
-            this.out = out;
-            this.pubKey = pubKey;
-        }
-
-        public PublicKey init() throws IOException, InvalidKeySpecException, NoSuchAlgorithmException {
-            // Send first init-message with public key as data
-            byte[] packet = Protocol.packet(Protocol.CMD_INIT, pubKey.getEncoded());
-            System.out.printf("SEND: %s\n", Arrays.toString(packet));
-            out.write(packet);
-            out.flush();
-
-           */
-/* System.out.printf("Data send, reading packet...\n");
-
-            // Read the response, which should contain the other hosts public key
-            ByteBuffer headBuf = ByteBuffer.allocate(Protocol.HEADER_SIZE);
-            int version, command, size;
-            headBuf.put(Protocol.readHeader(in)).flip();
-
-            version = headBuf.get();
-            command = headBuf.get();
-            size = headBuf.getInt();
-            System.out.printf("V: %s, C: %s, Size: %s\n", version, command, size);
-
-            byte[] data = new byte[size];
-            in.read(data, 0, size);
-            pubKey = KeyHandler.readPublicKey(data);
-            return pubKey;*//*
-
-            return null;
-        }
-
-    }
-*/
-
-
 }

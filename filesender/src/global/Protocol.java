@@ -6,7 +6,9 @@ import java.util.Map;
 
 public class Protocol {
 
-    public static int HEADER_SIZE = 6;
+    public static int HEADER_SIZE = 6,
+                      PAYLOAD_HEADER_SIZE = 6,
+                      LOGIN_ATTEMPTS_LIMIT = 3;
 
     public final static byte
             CMD_INIT = 1,
@@ -16,7 +18,13 @@ public class Protocol {
             CMD_AUTH_OK = 4,
             CMD_AUTH_PASS_REQUIRED = 5,
             CMD_AUTH_PASS = 6,
-            CMD_FILE = 7,
+            CMD_AUTH_BAD_LOGIN = 12,
+            CMD_FILE_START = 7,
+            CMD_FILE_DATA = 14,
+            CMD_FILE_END = 13,
+            CMD_FILE_SUCCESS = 15,
+            CMD_FILE_ERR_MD5 = 16,
+            CMD_FILE_ERR_OTHER = 17,
             CMD_ACK = 8,
             CMD_NACK = 9,
             CMD_END = 10,

@@ -3,18 +3,17 @@ package global;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import java.io.BufferedInputStream;
-import java.io.DataOutputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.security.*;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 
 public class ProtocolHandler extends Protocol {
 
     private int headerSize;
     private byte version;
+
 
     private BufferedInputStream in;
     private DataOutputStream out;
@@ -22,6 +21,13 @@ public class ProtocolHandler extends Protocol {
     private PrivateKey myPrivKey, theirPrivKey;
     private boolean encryptData;
     Crypter crypter;
+
+    public BufferedInputStream getInputStream() {
+        return in;
+    }
+    public DataOutputStream getOutputStream() {
+        return out;
+    }
 
     public ProtocolHandler(BufferedInputStream in, DataOutputStream out, KeyPair keyPair) throws FileNotFoundException, NoSuchAlgorithmException {
         this.in = in;
@@ -40,34 +46,6 @@ public class ProtocolHandler extends Protocol {
 
     public PublicKey getMyPubKey() {
         return myPubKey;
-    }
-
-    public void setMyPubKey(PublicKey myPubKey) {
-        this.myPubKey = myPubKey;
-    }
-
-    public PublicKey getTheirPubKey() {
-        return theirPubKey;
-    }
-
-    public void setTheirPubKey(PublicKey theirPubKey) {
-        this.theirPubKey = theirPubKey;
-    }
-
-    public PrivateKey getMyPrivKey() {
-        return myPrivKey;
-    }
-
-    public void setMyPrivKey(PrivateKey myPrivKey) {
-        this.myPrivKey = myPrivKey;
-    }
-
-    public PrivateKey getTheirPrivKey() {
-        return theirPrivKey;
-    }
-
-    public void setTheirPrivKey(PrivateKey theirPrivKey) {
-        this.theirPrivKey = theirPrivKey;
     }
 
     // Initializes the communication (should be called first from CLIENT side)
@@ -127,6 +105,36 @@ public class ProtocolHandler extends Protocol {
     }
 
     /*
+        Sends a File-packet, indicating the start of a new file.
+     */
+    public void sendFilePacket(int fileSize, String dest) throws IOException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+        ByteBuffer packetData = ByteBuffer.allocate(PAYLOAD_HEADER_SIZE + dest.length());
+        packetData.putInt(fileSize);
+        packetData.putShort((short) dest.length());
+        packetData.put(dest.getBytes());
+        System.out.printf("Sending: %s\n", Arrays.toString(packetData.array()));
+        sendPacket(CMD_FILE_START, packetData.array());
+    }
+
+    public void sendFileData(int size, byte[] data) throws IOException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+        sendPacket(CMD_FILE_DATA, Arrays.copyOfRange(data, 0, size));
+    }
+
+    public void readFileData(int size, byte[] data) throws IOException, IllegalBlockSizeException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException {
+        sendPacket(CMD_FILE_DATA, Arrays.copyOfRange(data, 0, size));
+    }
+
+    /*
+        Reads a file-packet returning only the payload of the original packet.
+     */
+    public FilePacket readFilePacket() throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
+        Packet packet = readPacket();
+        FilePacket fp = new FilePacket(packet);
+        System.out.println(Arrays.toString(packet.data));
+        return fp;
+    }
+
+    /*
         Wrapper-method when we only want to send a single command and no data.
         These packets are never encrypted.
     */
@@ -156,6 +164,42 @@ public class ProtocolHandler extends Protocol {
         Packet packet = new Packet(version, command, data);
         out.write(packet.bytes());
         out.flush();
+    }
+
+    public boolean respondAuthentication() throws IOException, InvalidKeyException, BadPaddingException, NoSuchAlgorithmException, IllegalBlockSizeException, NoSuchPaddingException {
+        Packet packet;
+        int attempts = 0;
+        boolean authorized = false;
+
+        // Tell client we're expecting a password
+        sendCommand(Protocol.CMD_AUTH_PASS_REQUIRED);
+
+        // Client only has n number of login attempts.
+        while (attempts < Protocol.LOGIN_ATTEMPTS_LIMIT && !authorized) {
+            if (attempts > 0)
+                sendCommand(Protocol.CMD_AUTH_BAD_LOGIN);
+            // Read password and try to authenticate the user
+            packet = readPacket();
+            authorized = Authenticator.authenticate(new String(packet.data));
+            attempts++;
+        }
+
+        if (attempts == Protocol.LOGIN_ATTEMPTS_LIMIT && !authorized) {
+            System.out.printf("Too many attempts!\n");
+            return false;
+        }
+
+        sendCommand(Protocol.CMD_AUTH_OK);
+        return true;
+    }
+
+    public boolean authenticate(String password) throws IllegalBlockSizeException, NoSuchAlgorithmException, IOException, BadPaddingException, NoSuchPaddingException, InvalidKeyException {
+        sendPacket(Protocol.CMD_AUTH_PASS, password.getBytes());
+        return readCommand() == Protocol.CMD_AUTH_OK;
+    }
+
+    public boolean md5SumIsOk(String file, byte[] md5Sum) throws NoSuchAlgorithmException {
+        return crypter.md5SumIsOk(file, md5Sum);
     }
 
 }
